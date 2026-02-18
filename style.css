@@ -36,7 +36,7 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%) translateZ(0px);
-  transform-origin: 50% 60%; /* near A gap */
+  transform-origin: 50% 48%; /* near A gap */
   z-index: 5;
   transform-style: preserve-3d;
 }
@@ -78,4 +78,120 @@ body {
   opacity: 0.7;
   font-size: 14px;
   letter-spacing: 2px;
+}
+
+/* ================= HERO SECTION ================= */
+
+.hero-section {
+  position: relative;
+  min-height: 100vh;
+  background: url("assets/bg.png") center/cover no-repeat;
+  color: white;
+  overflow: hidden;
+  padding-top: 120px;
+  font-family: 'Bricolage Grotesque', sans-serif;
+}
+
+/* NAVBAR */
+.navbar {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  padding: 30px 80px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-left,
+.nav-right {
+  display: flex;
+  gap: 40px;
+}
+
+.navbar a {
+  text-decoration: none;
+  color: white;
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+
+.nav-center img {
+  height: 40px;
+}
+
+.contact-btn {
+  background: #7b2cff;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+/* HERO CONTENT */
+.hero-content {
+  max-width: 1000px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 0 20px;
+  position: relative;
+  z-index: 5;
+}
+
+.tag-pill {
+  display: inline-block;
+  padding: 8px 18px;
+  border: 1px solid rgba(255,255,255,0.4);
+  border-radius: 30px;
+  font-size: 14px;
+  margin-bottom: 30px;
+  backdrop-filter: blur(4px);
+}
+
+.hero-content h1 {
+  font-size: clamp(42px, 6vw, 72px);
+  font-weight: 600;
+  line-height: 1.1;
+  margin-bottom: 25px;
+}
+
+.hero-content p {
+  max-width: 700px;
+  margin: 0 auto;
+  font-size: 16px;
+  line-height: 1.6;
+  opacity: 0.85;
+}
+
+/* FLOATING OBJECTS */
+.float {
+  position: absolute;
+  pointer-events: none;
+}
+
+.car { top: 120px; left: 200px; width: 180px; }
+.gamepad { top: 150px; right: 200px; width: 200px; }
+.shirt { top: 200px; left: 80px; width: 120px; }
+.cap { bottom: 140px; left: 150px; width: 140px; }
+.music { bottom: 120px; left: 50%; transform: translateX(-50%); width: 140px; }
+.shoe { bottom: 120px; right: 180px; width: 220px; }
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+
+  .navbar {
+    padding: 20px 40px;
+  }
+
+  .nav-left {
+    display: none;
+  }
+
+  .float {
+    display: none;
+  }
+
+  .hero-content h1 {
+    font-size: 36px;
+  }
 }

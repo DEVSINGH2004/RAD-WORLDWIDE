@@ -15,12 +15,14 @@ ScrollTrigger.create({
 
     let progress = self.progress;
 
-    /* -------------------------------- */
-    /* 1️⃣ Camera Moving Forward       */
-    /* -------------------------------- */
+    /* ----------------------------- */
+    /* 1️⃣ Camera Entering Lower A  */
+    /* ----------------------------- */
 
-    // Move logo toward camera in Z space
-    let logoZ = gsap.utils.interpolate(0, 1200, progress);
+    // Push logo far forward so it exits frame
+    let logoZ = gsap.utils.interpolate(0, 2000, progress);
+
+    // Slight downward drift into lower gap
     let logoY = gsap.utils.interpolate(-200, 0, progress);
 
     gsap.set(logoWrapper, {
@@ -29,9 +31,9 @@ ScrollTrigger.create({
       scale: 1 + progress * 1.5
     });
 
-    /* -------------------------------- */
-    /* 2️⃣ Bring Hero Forward After Gap */
-    /* -------------------------------- */
+    /* ----------------------------- */
+    /* 2️⃣ Hero Coming From Behind  */
+    /* ----------------------------- */
 
     let entryPoint = 0.55;
 
@@ -40,23 +42,16 @@ ScrollTrigger.create({
       let heroProgress = (progress - entryPoint) / (1 - entryPoint);
       heroProgress = gsap.utils.clamp(0, 1, heroProgress);
 
-      // Move hero from deep behind to front
       let heroZ = gsap.utils.interpolate(-800, 0, heroProgress);
 
       gsap.set(hero, {
         z: heroZ
       });
 
-      // Blur → Sharp
       gsap.set(heroTitle, {
         opacity: heroProgress,
         scale: 0.8 + heroProgress * 0.2,
         filter: `blur(${(1 - heroProgress) * 20}px)`
-      });
-
-      // Fade logo as we pass through
-      gsap.set(logoWrapper, {
-        opacity: 1 - heroProgress
       });
 
     } else {
@@ -68,10 +63,6 @@ ScrollTrigger.create({
 
       gsap.set(hero, {
         z: -800
-      });
-
-      gsap.set(logoWrapper, {
-        opacity: 1
       });
     }
 
