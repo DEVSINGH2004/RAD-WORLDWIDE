@@ -21,9 +21,11 @@ ScrollTrigger.create({
 
     // Move logo toward camera in Z space
     let logoZ = gsap.utils.interpolate(0, 1200, progress);
+    let logoY = gsap.utils.interpolate(-200, 0, progress);
 
     gsap.set(logoWrapper, {
       z: logoZ,
+      y: logoY,
       scale: 1 + progress * 1.5
     });
 
