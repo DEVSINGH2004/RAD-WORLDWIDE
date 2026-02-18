@@ -1,0 +1,81 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  overflow-x: hidden;
+  font-family: sans-serif;
+  background: #6b3fc7;
+}
+
+/* Scroll space */
+.scroll-container {
+  height: 250vh;
+}
+
+/* Intro pinned section */
+.intro {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* 3D scene container */
+.scene {
+  position: fixed;
+  inset: 0;
+  perspective: 1800px;
+  transform-style: preserve-3d;
+}
+
+/* LOGO */
+.logo-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) translateZ(0px);
+  transform-origin: 50% 48%; /* near A gap */
+  z-index: 5;
+  transform-style: preserve-3d;
+}
+
+.logo {
+  width: 600px;
+  max-width: 80vw;
+}
+
+/* HERO behind */
+.hero {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  transform: translateZ(-800px); /* start deep behind */
+}
+
+.hero-title {
+  font-size: 4rem;
+  color: white;
+  text-align: center;
+
+  opacity: 0;
+  filter: blur(20px);
+  transform: scale(0.8);
+  will-change: transform, opacity, filter;
+}
+
+/* Scroll text */
+.scroll-text {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  opacity: 0.7;
+  font-size: 14px;
+  letter-spacing: 2px;
+}
