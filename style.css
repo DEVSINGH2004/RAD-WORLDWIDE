@@ -330,3 +330,96 @@ body {
     display: none;
   }
 }
+
+/* ================= PARTNERS SECTION (IMAGE 2 STYLE) ================= */
+
+.partners-section {
+  background: #120018;
+  padding: 140px 80px;
+  color: white;
+}
+
+.partners-title {
+  text-align: center;
+  font-size: 56px;
+  margin-bottom: 80px;
+}
+
+/* ROWS */
+.partners-row {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+.row-2 .partner-card {
+  width: 520px;
+}
+
+.row-3 .partner-card {
+  width: 360px;
+}
+
+/* CARD */
+.partner-card {
+  background: linear-gradient(135deg, #2b003a, #3d0060);
+  border-radius: 30px;
+  padding: 30px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* INNER PANEL (top image area) */
+.card-inner {
+  background: rgba(255,255,255,0.03);
+  border-radius: 20px;
+  padding: 40px;
+  margin-bottom: 25px;
+
+  background-image:
+    linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.card-inner img {
+  width: 160px;
+}
+
+/* NUMBER */
+.card-number {
+  display: inline-block;
+  font-size: 14px;
+  opacity: 0.6;
+  margin-bottom: 10px;
+}
+
+/* TITLE */
+.partner-card h3 {
+  font-size: 22px;
+  margin-bottom: 15px;
+}
+
+/* DESCRIPTION */
+.partner-card p {
+  font-size: 14px;
+  line-height: 1.6;
+  opacity: 0.85;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1200px) {
+
+  .partners-row {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .partner-card {
+    width: 100% !important;
+    max-width: 500px;
+  }
+
+}
