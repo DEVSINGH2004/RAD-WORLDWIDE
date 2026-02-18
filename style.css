@@ -423,3 +423,94 @@ body {
   }
 
 }
+
+/* ================= PROJECTS SECTION ================= */
+
+.projects-section {
+  background: #120018;
+  padding: 120px 0 80px;
+  text-align: center;
+  color: white;
+}
+
+.projects-title {
+  font-size: 56px;
+  margin-bottom: 60px;
+}
+
+/* LOGO STRIP */
+.logo-strip {
+  width: 100%;
+  padding: 40px 0;
+  background: linear-gradient(90deg, #2b003a, #3d0060);
+  overflow: hidden;
+
+  background-image:url("assets/bg.png") center/cover no-repeat;
+}
+
+.logo-track {
+  display: flex;
+  justify-content: center;
+  gap: 120px;
+  align-items: center;
+}
+
+.logo-track img {
+  height: 40px;
+  opacity: 0.8;
+}
+
+
+/* ================= WHY SECTION ================= */
+
+.why-section {
+  background: #120018;
+  padding: 120px 80px;
+  color: white;
+}
+
+.why-card {
+  background: linear-gradient(135deg, #2b003a, #3d0060);
+  border-radius: 30px;
+  padding: 60px 80px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 40px;
+}
+
+.why-text h2 {
+  font-size: 40px;
+  margin-bottom: 20px;
+}
+
+.why-text p {
+  max-width: 600px;
+  opacity: 0.85;
+  line-height: 1.6;
+}
+
+.why-image img {
+  width: 200px;
+}
+
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 1024px) {
+
+  .why-section {
+    padding: 80px 30px;
+  }
+
+  .why-card {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .logo-track {
+    gap: 60px;
+  }
+
+}
+
