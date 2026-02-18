@@ -514,3 +514,145 @@ body {
 
 }
 
+
+
+/* ================= NEWSLETTER ================= */
+
+.newsletter-section {
+  background: #120018;
+  padding: 120px 80px;
+}
+
+.newsletter-card {
+  background: linear-gradient(135deg, #2b003a, #3d0060);
+  border-radius: 30px;
+  padding: 60px 80px;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 60px;
+}
+
+.newsletter-text h2 {
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+
+.newsletter-text p {
+  max-width: 500px;
+  opacity: 0.85;
+  line-height: 1.6;
+  margin-bottom: 30px;
+}
+
+.newsletter-btn {
+  background: #1a0025;
+  color: white;
+  padding: 18px 40px;
+  border-radius: 20px;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.newsletter-image img {
+  width: 200px;
+}
+
+
+/* ================= CONTACT SECTION ================= */
+
+.contact-section {
+  background: #120018;
+  padding: 120px 80px;
+}
+
+.contact-card {
+  background: linear-gradient(135deg, #2b003a, #3d0060);
+  border-radius: 30px;
+  padding: 60px 80px;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  gap: 80px;
+}
+
+.contact-left {
+  max-width: 300px;
+}
+
+.contact-left h2 {
+  font-size: 32px;
+  margin-bottom: 15px;
+}
+
+.contact-left p {
+  opacity: 0.85;
+  margin-bottom: 40px;
+}
+
+.submit-btn {
+  background: #1a0025;
+  color: white;
+  padding: 18px 60px;
+  padding-inline: 10rem;
+  border-radius: 20px;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  margin-top: 20rem;
+}
+
+.contact-right {
+  flex: 1;
+}
+
+.form-group {
+  margin-bottom: 25px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  opacity: 0.9;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  background: #1a0025;
+  border: none;
+  border-radius: 15px;
+  padding: 15px;
+  color: white;
+  font-size: 14px;
+}
+
+.form-group textarea {
+  resize: none;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 1024px) {
+
+  .newsletter-card,
+  .contact-card {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .newsletter-section,
+  .contact-section {
+    padding: 80px 30px;
+  }
+
+  .contact-left {
+    max-width: 100%;
+  }
+
+}
+
+
