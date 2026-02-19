@@ -10,19 +10,18 @@ gsap.set(logoWrapper, {
   force3D: true
 });
 
-/* Hero starts invisible and blurred */
 gsap.set(heroSection, {
   opacity: 0,
   filter: "blur(40px)",
   scale: 1.08
 });
 
-/* ── Single ScrollTrigger that drives everything ── */
+/* ── Single ScrollTrigger ── */
 ScrollTrigger.create({
   trigger: ".intro",
   start: "top top",
   end: "+=2400",
-  scrub: 1.4,
+  scrub: 0.8,          /* snappier — was 1.4 */
   pin: true,
   anticipatePin: 1,
 
@@ -30,7 +29,16 @@ ScrollTrigger.create({
     const p = self.progress;
 
     /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-       1.  LOGO  –  zoom forward and off-screen
+       0.  PURPLE BG FADE  —  starts immediately
+           p: 0 → 0.45  (gone before hero fully appears)
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    const bgFade = gsap.utils.clamp(0, 1, p / 0.45);
+    gsap.set(introSection, {
+      backgroundColor: `rgba(135, 51, 232, ${1 - bgFade})`
+    });
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       1.  LOGO  —  zoom forward and off-screen
            p: 0 → 0.70
     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
     const logoP = gsap.utils.clamp(0, 1, p / 0.70);
@@ -41,14 +49,13 @@ ScrollTrigger.create({
       y:     logoP * 180
     });
 
-    /* Fade logo out as it exits so it doesn't hard-clip */
+    /* Fade logo as it exits so it doesn't hard-clip */
     const logoFade = gsap.utils.clamp(0, 1, (p - 0.52) / 0.18);
     gsap.set(logoWrapper, { opacity: 1 - logoFade });
 
     /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-       2.  HERO REVEAL  –  opacity + unblur
-           starts as logo leaves (p 0.58)
-           fully sharp & visible by p 0.88
+       2.  HERO REVEAL  —  opacity + unblur
+           p: 0.58 → 0.88
     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
     const heroP = gsap.utils.clamp(0, 1, (p - 0.58) / 0.30);
 
@@ -59,29 +66,24 @@ ScrollTrigger.create({
     });
 
     /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-       3.  INTRO OVERLAY fade out
-           p: 0.82 → 1.00
+       3.  INTRO OVERLAY full fade-out
+           p: 0.84 → 1.00
     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-    const fadeP = gsap.utils.clamp(0, 1, (p - 0.82) / 0.18);
+    const fadeP = gsap.utils.clamp(0, 1, (p - 0.84) / 0.16);
     gsap.set(introSection, { opacity: 1 - fadeP });
   },
 
   onLeave: () => {
-    /* Lock final hero state clean */
     gsap.set(heroSection, { opacity: 1, filter: "blur(0px)", scale: 1 });
-
-    /*
-      KEY FIX:
-      Hero stays `position: fixed` — NEVER pulled into document flow.
-      Drop z-index to 0 so the content sections (z-index: 1) scroll
-      right over it naturally. No reappearance. No layout jump.
-    */
     gsap.set(heroSection, { zIndex: 0 });
   },
 
   onEnterBack: () => {
-    /* Restore hero above content so animation plays correctly on scroll-up */
     gsap.set(heroSection, { zIndex: 10 });
-    gsap.set(introSection, { opacity: 1 });
+    /* Restore purple bg and full opacity on scroll-back */
+    gsap.set(introSection, {
+      opacity: 1,
+      backgroundColor: "rgba(135, 51, 232, 1)"
+    });
   }
 });
