@@ -7,7 +7,7 @@
 body {
   overflow-x: hidden;
   font-family: sans-serif;
-  background: #6b3fc7;
+  background:  #8733E8 100%;
 }
 
 /* Scroll space */
@@ -561,7 +561,7 @@ body {
 }
 
 
-/* ================= CONTACT SECTION ================= */
+/* ================= CONTACT SECTION (EXACT IMAGE 1) ================= */
 
 .contact-section {
   background: #120018;
@@ -570,87 +570,112 @@ body {
 
 .contact-card {
   background: linear-gradient(135deg, #2b003a, #3d0060);
-  border-radius: 30px;
-  padding: 60px 80px;
   color: white;
+  border-radius: 40px;
+  padding: 70px 90px;
   display: flex;
   justify-content: space-between;
-  gap: 80px;
+  gap: 100px;
 }
 
+/* LEFT SIDE */
 .contact-left {
-  max-width: 300px;
+  width: 320px;
 }
 
 .contact-left h2 {
-  font-size: 32px;
-  margin-bottom: 15px;
+  font-size: 40px;
+  margin-bottom: 20px;
 }
 
 .contact-left p {
-  opacity: 0.85;
-  margin-bottom: 40px;
+  opacity: 0.8;
+  line-height: 1.6;
 }
 
-.submit-btn {
-  background: #1a0025;
-  color: white;
-  padding: 18px 60px;
-  padding-inline: 10rem;
-  border-radius: 20px;
-  border: none;
-  font-size: 18px;
-  cursor: pointer;
-  margin-top: 20rem;
-}
-
+/* RIGHT SIDE */
 .contact-right {
   flex: 1;
 }
 
+/* FORM GROUP */
 .form-group {
-  margin-bottom: 25px;
+  margin-bottom: 28px;
 }
 
 .form-group label {
   display: block;
-  margin-bottom: 8px;
-  opacity: 0.9;
+  font-size: 18px;
+  margin-bottom: 10px;
+  font-weight: 500;
 }
 
+/* INPUT STYLE (PILL DARK CONTAINER + UNDERLINE) */
 .form-group input,
-.form-group select,
+.form-group select {
+  width: 100%;
+  background: #1a0025;
+  border: none;
+  border-radius: 20px;
+  padding: 18px 24px;
+  color: white;
+  font-size: 16px;
+  position: relative;
+}
+
+/* Underline effect inside input */
+.form-group input {
+  border-bottom: 1px solid rgba(255,255,255,0.3);
+  border-radius: 20px;
+}
+
+/* SELECT */
+.form-group select {
+  appearance: none;
+  background: #1a0025;
+}
+
+/* MESSAGE AREA */
 .form-group textarea {
   width: 100%;
   background: #1a0025;
   border: none;
-  border-radius: 15px;
-  padding: 15px;
+  border-radius: 20px;
+  padding: 25px;
   color: white;
-  font-size: 14px;
-}
-
-.form-group textarea {
+  font-size: 16px;
   resize: none;
+  height: 140px;
+
+  background-image:
+    linear-gradient(rgba(255,255,255,0.2) 1px, transparent 1px);
+  background-size: 100% 30px;
 }
 
-/* ================= RESPONSIVE ================= */
+/* SUBMIT BUTTON (WIDE + HEAVY) */
+.submit-btn {
+  margin-top: 40px;
+  width: 340px;
+  height: 65px;
+  background: #1a0025;
+  border-radius: 25px;
+  border: none;
+  color: white;
+  font-size: 24px;
+  font-weight: 600;
+  cursor: pointer;
+}
 
+/* RESPONSIVE */
 @media (max-width: 1024px) {
 
-  .newsletter-card,
   .contact-card {
     flex-direction: column;
-    text-align: center;
+    padding: 50px 30px;
   }
 
-  .newsletter-section,
-  .contact-section {
-    padding: 80px 30px;
-  }
-
-  .contact-left {
-    max-width: 100%;
+  .submit-btn {
+    width: 100%;
   }
 
 }
