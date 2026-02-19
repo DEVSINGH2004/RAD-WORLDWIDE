@@ -38,7 +38,7 @@ ScrollTrigger.create({
     let heroProgress = gsap.utils.clamp(
       0,
       1,
-      (progress - 0.45) / 0.4
+      (progress - 0.5) / 0.35
     );
 
     gsap.set(heroSection, {
@@ -50,7 +50,7 @@ ScrollTrigger.create({
     let fadeProgress = gsap.utils.clamp(
       0,
       1,
-      (progress - 0.85) / 0.15
+      (progress - 0.8) / 0.2
     );
 
     gsap.set(introSection, {
@@ -60,11 +60,13 @@ ScrollTrigger.create({
   },
 
   onLeave: () => {
+    heroSection.style.height = "100vh";
     /* Release hero into normal flow */
     heroSection.classList.add("active");
   },
 
   onEnterBack: () => {
+    heroSection.style.height = "";
     /* Restore portal mode when scrolling back up */
     heroSection.classList.remove("active");
   }

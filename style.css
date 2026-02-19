@@ -45,6 +45,7 @@ body {
   justify-content: center;
   align-items: center;
   perspective: 1800px;
+  transform-style: preserve-3d; /* ADD THIS */
 }
 
 /* LOGO */
@@ -103,6 +104,18 @@ body {
   filter: blur(40px);
   transform: scale(1.1);
   color: white;
+  transition: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("assets/bg.png") center/cover no-repeat;
+  z-index: 0;
   transition: none;
 }
 
