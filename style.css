@@ -75,23 +75,9 @@ body {
 .intro-float {
   position: absolute;
   pointer-events: none;
+  /* NO CSS animation here — GSAP owns all transforms on these elements */
   will-change: transform, opacity;
   z-index: 5;
-  /* subtle idle float — GSAP takes over on scroll */
-  animation: idleFloat 3s ease-in-out infinite;
-}
-
-/* Stagger idle float per item */
-.if-shirt   { animation-delay: 0.0s; }
-.if-gamepad { animation-delay: 0.5s; }
-.if-cap     { animation-delay: 1.0s; }
-.if-car     { animation-delay: 0.3s; }
-.if-music   { animation-delay: 0.8s; }
-.if-shoe    { animation-delay: 1.3s; }
-
-@keyframes idleFloat {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50%       { transform: translateY(-14px) rotate(2deg); }
 }
 
 /* Positions scattered around the centre logo */
