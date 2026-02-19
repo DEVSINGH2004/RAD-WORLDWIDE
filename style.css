@@ -70,6 +70,47 @@ body {
   50%       { transform: translateX(-50%) translateY(6px); opacity: 1;   }
 }
 
+/* ================= INTRO FLOATING OBJECTS ================= */
+
+.intro-float {
+  position: absolute;
+  pointer-events: none;
+  will-change: transform, opacity;
+  z-index: 5;
+  /* subtle idle float — GSAP takes over on scroll */
+  animation: idleFloat 3s ease-in-out infinite;
+}
+
+/* Stagger idle float per item */
+.if-shirt   { animation-delay: 0.0s; }
+.if-gamepad { animation-delay: 0.5s; }
+.if-cap     { animation-delay: 1.0s; }
+.if-car     { animation-delay: 0.3s; }
+.if-music   { animation-delay: 0.8s; }
+.if-shoe    { animation-delay: 1.3s; }
+
+@keyframes idleFloat {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50%       { transform: translateY(-14px) rotate(2deg); }
+}
+
+/* Positions scattered around the centre logo */
+
+/* Group UP — top-left, top-right, mid-right */
+.if-shirt   { top: 16%;  left: 5%;   width: 110px; }
+.if-gamepad { top: 10%;  right: 7%;  width: 155px; }
+.if-cap     { top: 52%;  right: 5%;  width: 120px; }
+
+/* Group DOWN — bottom-left, bottom-centre, bottom-right */
+.if-car     { bottom: 12%; left: 7%;            width: 165px; }
+.if-music   { bottom: 9%;  left: 50%; margin-left: -52px; width: 105px; }
+.if-shoe    { bottom: 12%; right: 7%;            width: 165px; }
+
+@media (max-width: 1024px) {
+  /* hide on mobile — not enough room */
+  .intro-float { display: none; }
+}
+
 /* ================= HERO SECTION ================= */
 
 .hero-section {
