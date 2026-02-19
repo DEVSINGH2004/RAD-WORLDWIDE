@@ -11,34 +11,46 @@ body {
 }
 
 /* Scroll space */
-.scroll-container {
+/* .scroll-container {
   height: 250vh;
-}
+} */
 
 /* Intro pinned section */
+
 .intro {
   position: relative;
   height: 100vh;
+  background: #8733E8;
   overflow: hidden;
+  z-index: 20; /* higher than hero initially */
 }
+
+
 
 /* 3D scene container */
 .scene {
-  position: fixed;
+  position: absolute;
   inset: 0;
   perspective: 1800px;
   transform-style: preserve-3d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  perspective: 1800px;
 }
 
 /* LOGO */
 .logo-wrapper {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) translateZ(0px);
-  transform-origin: 50% 48%; /* near A gap */
-  z-index: 5;
   transform-style: preserve-3d;
+  transform-origin: 50% 48%;
 }
 
 .logo {
@@ -83,14 +95,23 @@ body {
 /* ================= HERO SECTION ================= */
 
 .hero-section {
-  position: relative;
+  position: fixed;
+  inset: 0;
+  z-index: 10; /* below intro */
   min-height: 100vh;
   background: url("assets/bg.png") center/cover no-repeat;
+  filter: blur(40px);
+  transform: scale(1.1);
   color: white;
-  overflow: hidden;
-  padding-top: 120px;
-  font-family: 'Bricolage Grotesque', sans-serif;
+  transition: none;
 }
+
+/* After intro finishes */
+.hero-section.active {
+  position: relative;
+  z-index: 1;
+}
+
 
 /* NAVBAR */
 .navbar {
@@ -680,4 +701,116 @@ body {
 
 }
 
+/* ================= RAD FOOTER ================= */
+
+.rad-footer {
+  position: relative;
+  background: #120018;
+  padding-top: 250px;
+  padding-bottom: 120px;
+  overflow: hidden;
+  color: #cbb6d9;
+}
+
+/* 1️⃣ Curved Text */
+.footer-vector {
+  position: absolute;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120%;
+  opacity: 0.18;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* 2️⃣ Ellipse BELOW text */
+.footer-ellipse {
+  position: absolute;
+  top: 220px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 150%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* 3️⃣ Chrome Logo ABOVE both */
+.footer-logo {
+  position: relative;
+  margin-top: 320px;
+  margin-bottom: 140px;
+  text-align: center;
+  z-index: 3;
+}
+
+.footer-logo img {
+  width: 420px;
+  max-width: 80vw;
+}
+
+/* 4️⃣ Footer Links */
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 120px;
+  max-width: 1400px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 4;
+}
+
+.footer-col {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.footer-col span {
+  margin-top: 20px;
+  font-size: 12px;
+  opacity: 0.6;
+}
+
+.footer-col.right {
+  text-align: right;
+}
+
+.footer-col .small {
+  font-size: 12px;
+  opacity: 0.6;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+
+  .footer-links {
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+  }
+
+  .footer-col.right {
+    text-align: center;
+  }
+
+  .footer-logo img {
+    width: 260px;
+  }
+
+}
+
+
+
+.about-services,
+.partners-section,
+.projects-section,
+.why-section,
+.newsletter-section,
+.contact-section {
+  position: relative;
+  z-index: 1;
+}
 

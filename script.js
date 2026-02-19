@@ -1,70 +1,72 @@
 gsap.registerPlugin(ScrollTrigger);
 
-let logoWrapper = document.querySelector(".logo-wrapper");
-let hero = document.querySelector(".hero");
-let heroTitle = document.querySelector(".hero-title");
+const logoWrapper = document.querySelector(".logo-wrapper");
+const introSection = document.querySelector(".intro");
+const heroSection = document.querySelector(".hero-section");
+
+/* Ensure stable transform */
+gsap.set(logoWrapper, {
+  transformOrigin: "50% 50%",
+  force3D: true
+});
+
+gsap.set(heroSection, {
+  filter: "blur(40px)",
+  scale: 1.1
+});
 
 ScrollTrigger.create({
   trigger: ".intro",
   start: "top top",
-  end: "+=3000",
+  end: "+=2200",
   scrub: 1.2,
   pin: true,
   anticipatePin: 1,
+
   onUpdate: (self) => {
 
     let progress = self.progress;
 
-    /* ----------------------------- */
-    /* 1️⃣ Camera Entering Lower A  */
-    /* ----------------------------- */
-
-    // Push logo far forward so it exits frame
-    let logoZ = gsap.utils.interpolate(0, 2000, progress);
-
-    // Slight downward drift into lower gap
-    let logoY = gsap.utils.interpolate(-200, 0, progress);
-
+    /* 1️⃣ Logo push */
     gsap.set(logoWrapper, {
-      z: logoZ,
-      y: logoY,
-      scale: 1 + progress * 1.5
+      z: progress * 2800,
+      scale: 1 + progress * 2,
+      y: progress * 150
     });
 
-    /* ----------------------------- */
-    /* 2️⃣ Hero Coming From Behind  */
-    /* ----------------------------- */
+    /* 2️⃣ Hero sharpen */
+    let heroProgress = gsap.utils.clamp(
+      0,
+      1,
+      (progress - 0.45) / 0.4
+    );
 
-    let entryPoint = 0.55;
+    gsap.set(heroSection, {
+      filter: `blur(${(1 - heroProgress) * 40}px)`,
+      scale: 1.1 - heroProgress * 0.1
+    });
 
-    if (progress > entryPoint) {
+    /* 3️⃣ Fade intro */
+    let fadeProgress = gsap.utils.clamp(
+      0,
+      1,
+      (progress - 0.85) / 0.15
+    );
 
-      let heroProgress = (progress - entryPoint) / (1 - entryPoint);
-      heroProgress = gsap.utils.clamp(0, 1, heroProgress);
+    gsap.set(introSection, {
+      opacity: 1 - fadeProgress
+    });
 
-      let heroZ = gsap.utils.interpolate(-800, 0, heroProgress);
+  },
 
-      gsap.set(hero, {
-        z: heroZ
-      });
+  onLeave: () => {
+    /* Release hero into normal flow */
+    heroSection.classList.add("active");
+  },
 
-      gsap.set(heroTitle, {
-        opacity: heroProgress,
-        scale: 0.8 + heroProgress * 0.2,
-        filter: `blur(${(1 - heroProgress) * 20}px)`
-      });
-
-    } else {
-
-      gsap.set(heroTitle, {
-        opacity: 0,
-        filter: "blur(20px)"
-      });
-
-      gsap.set(hero, {
-        z: -800
-      });
-    }
-
+  onEnterBack: () => {
+    /* Restore portal mode when scrolling back up */
+    heroSection.classList.remove("active");
   }
+
 });
