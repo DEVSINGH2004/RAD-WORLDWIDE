@@ -185,3 +185,63 @@ ScrollTrigger.create({
     });
   }
 });
+
+/* ═══════════════════════════════════════════════════════
+   SERVICES — stacked card scroll animation
+   Each card slides UP off screen one by one,
+   revealing the card underneath, in sync with scroll.
+═══════════════════════════════════════════════════════ */
+(function () {
+  const scene   = document.querySelector(".service-stack-scene");
+  const cards   = gsap.utils.toArray(".service-card").reverse(); /* [card1, card2, card3, card4] — card1 = z-top */
+
+  if (!scene || cards.length === 0) return;
+
+  /* How far each card flies up when dismissed */
+  const EXIT_Y = "-110%";
+
+  /* Set initial peek positions for cards 2-4 */
+  const peekY     = [0, 18, 36, 54];
+  const peekScale = [1, 0.97, 0.94, 0.91];
+
+  cards.forEach((card, i) => {
+    gsap.set(card, { y: peekY[i], scale: peekScale[i] });
+  });
+
+  /* Build a timeline: one card exits per scroll segment */
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: scene,
+      start: "top 15%",           /* pin kicks in when stack hits near top */
+      end: `+=${cards.length * 340}`,   /* ~340px of scroll per card */
+      scrub: 1,
+      pin: true,
+      anticipatePin: 1,
+    }
+  });
+
+  /* For each card (top → bottom): 
+     1. Slide current top card up and off
+     2. Pull cards below up into their new peek positions */
+  cards.forEach((card, i) => {
+    const remaining = cards.slice(i + 1); /* cards below current */
+
+    tl.to(card, {
+      y: EXIT_Y,
+      scale: 1,
+      opacity: 0,
+      ease: "power2.in",
+      duration: 1
+    }, i * 1.2 /* stagger start times */);
+
+    /* Shift remaining cards up into new peek slots */
+    remaining.forEach((below, j) => {
+      tl.to(below, {
+        y: peekY[j],
+        scale: peekScale[j],
+        ease: "power2.out",
+        duration: 1
+      }, i * 1.2 /* same time as exit */);
+    });
+  });
+})();

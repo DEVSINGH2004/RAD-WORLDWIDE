@@ -257,38 +257,49 @@ body {
   margin: 120px 0 60px;
 }
 
-.service-stack {
+/* ── SERVICES CARD STACK SCENE ── */
+
+.service-stack-scene {
   position: relative;
   max-width: 1100px;
   margin: 0 auto;
+  /* height is controlled by JS pinning — just needs to be tall enough */
+  padding-bottom: 60px;
 }
 
-.service-layer {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 95%;
-  height: 100%;
-  border-radius: 30px;
-  background: #240035;
-}
-
-.layer-2 { top: 20px; opacity: 0.6; }
-.layer-3 { top: 40px; opacity: 0.4; }
-
-.service-card {
+.service-stack-inner {
   position: relative;
+  height: 520px;   /* card height + breathing room */
+}
+
+/* All cards stacked absolutely on top of each other */
+.service-card {
+  position: absolute;
+  inset: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: linear-gradient(135deg, #2b003a, #3d0060);
+  background: green;
   border-radius: 30px;
   padding: 60px;
-  background-image:
+  /* background-image:
     linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); */
   background-size: 40px 40px;
+  will-change: transform, opacity;
+  /* Stacking depth: card 1 on top (highest z), card 4 at bottom */
+  transform-origin: center bottom;
 }
+
+.service-card[data-card="1"] { z-index: 4; }
+.service-card[data-card="2"] { z-index: 3; }
+.service-card[data-card="3"] { z-index: 2; }
+.service-card[data-card="4"] { z-index: 1; }
+
+/* Initial peek — cards below are offset down + scaled to show depth */
+.service-card[data-card="2"] { transform: translateY(18px) scale(0.97); }
+.service-card[data-card="3"] { transform: translateY(36px) scale(0.94); }
+.service-card[data-card="4"] { transform: translateY(54px) scale(0.91); }
 
 .service-number { font-size: 14px; opacity: 0.7; }
 
@@ -309,9 +320,13 @@ body {
 @media (max-width: 1024px) {
   .about-services { padding: 80px 30px; }
   .about-card { flex-direction: column; text-align: center; }
-  .service-card { flex-direction: column; text-align: center; }
+  .service-card { flex-direction: column; text-align: center; padding: 40px 30px; }
   .service-image img { width: 200px; margin-top: 30px; }
-  .service-layer { display: none; }
+  .service-stack-inner { height: auto; }
+  .service-card { position: relative; inset: auto; transform: none !important; margin-bottom: 20px; }
+  .service-card[data-card="2"],
+  .service-card[data-card="3"],
+  .service-card[data-card="4"] { transform: none; }
 }
 
 /* ================= PARTNERS SECTION ================= */
