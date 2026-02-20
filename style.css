@@ -221,13 +221,14 @@ body {
 /* ================= ABOUT + SERVICES ================= */
 
 .about-services {
-  background: #1a0025;
+  background: #100318;
   padding: 120px 80px;
   color: white;
 }
 
 .about-card {
-  background: linear-gradient(135deg, #2b003a, #3d0060);
+  background: #110d22;
+  border: 1px solid rgba(255,255,255,0.08);
   border-radius: 30px;
   padding: 50px 60px;
   display: flex;
@@ -279,12 +280,13 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: green;
+  background: #22082a;
+  border: 1px solid rgba(255,255,255,0.10);
   border-radius: 30px;
-  padding: 60px;
-  /* background-image:
-    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); */
+  padding: 70px 80px;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
   background-size: 40px 40px;
   will-change: transform, opacity;
   /* Stacking depth: card 1 on top (highest z), card 4 at bottom */
@@ -297,22 +299,36 @@ body {
 .service-card[data-card="4"] { z-index: 1; }
 
 /* Initial peek — cards below are offset down + scaled to show depth */
-.service-card[data-card="2"] { transform: translateY(18px) scale(0.97); }
-.service-card[data-card="3"] { transform: translateY(36px) scale(0.94); }
-.service-card[data-card="4"] { transform: translateY(54px) scale(0.91); }
+.service-card[data-card="2"] { transform: translateY(18px) scale(0.97); background: #1e0725; border-color: rgba(255,255,255,0.07); }
+.service-card[data-card="3"] { transform: translateY(36px) scale(0.94); background: #1a0620; border-color: rgba(255,255,255,0.05); }
+.service-card[data-card="4"] { transform: translateY(54px) scale(0.91); background: #17051c; border-color: rgba(255,255,255,0.04); }
 
-.service-number { font-size: 14px; opacity: 0.7; }
+.service-number { font-size: 15px; opacity: 0.5; letter-spacing: 1px; display: block; margin-bottom: 12px; }
+
+.service-content {
+  padding: 20px 30px 20px 20px;
+  flex: 1;
+}
+
+.service-image {
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 .service-content h3 {
-  font-size: 40px;
+  font-size: 44px;
+  font-weight: 700;
   margin: 15px 0 20px;
-  line-height: 1.2;
+  line-height: 1.15;
 }
 
 .service-content p {
-  max-width: 550px;
-  opacity: 0.85;
-  line-height: 1.6;
+  max-width: 500px;
+  opacity: 0.6;
+  font-size: 15px;
+  line-height: 1.65;
 }
 
 .service-image img { width: 300px; }
