@@ -577,78 +577,154 @@ body {
 
 .rad-footer {
   position: relative;
-  background: #120018;
-  padding-top: 250px;
-  padding-bottom: 120px;
+  background: #180020;
   overflow: hidden;
-  color: #cbb6d9;
+  color: #c9aee0;
+  padding-bottom: 60px;
 }
 
+/* ── Layer 1: RADWORLDWIDE arched text — full width, top of footer ── */
 .footer-vector {
   position: absolute;
-  top: 80px;
+  top: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 120%;
-  opacity: 0.18;
+  width: 100%;
+  min-width: 900px;
   z-index: 1;
   pointer-events: none;
+  display: block;
 }
 
+/* ── Layer 2: black dome ellipse — sits below the text ── */
 .footer-ellipse {
   position: absolute;
-  top: 220px;
+  top: 28%;           /* pushes dome down so text peeks above it */
   left: 50%;
   transform: translateX(-50%);
-  width: 150%;
+  width: 110%;
+  min-width: 900px;
   z-index: 2;
   pointer-events: none;
+  display: block;
 }
 
+/* ── Layer 3: chrome globe logo — centred over dome ── */
 .footer-logo {
   position: relative;
-  margin-top: 320px;
-  margin-bottom: 140px;
-  text-align: center;
   z-index: 3;
+  text-align: center;
+  padding-top: 42%;   /* pushes logo down into the dome sweet-spot */
+  padding-bottom: 0;
 }
 
 .footer-logo img {
-  width: 420px;
-  max-width: 80vw;
+  width: 340px;
+  max-width: 60vw;
+  display: inline-block;
 }
 
+/* ── Layer 4: footer links — below logo ── */
 .footer-links {
-  display: flex;
-  justify-content: center;
-  gap: 120px;
-  max-width: 1400px;
-  margin: 0 auto;
   position: relative;
   z-index: 4;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr) 220px;
+  gap: 0 40px;
+  max-width: 1200px;
+  margin: 60px auto 0;
+  padding: 0 60px;
 }
 
 .footer-col {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  font-size: 14px;
-  opacity: 0.8;
+  gap: 6px;
 }
 
-.footer-col span {
+.footer-col a {
+  text-decoration: none;
+  color: #c9aee0;
+  font-size: 13px;
+  opacity: 0.85;
+  transition: opacity 0.2s;
+}
+
+.footer-col a:hover { opacity: 1; }
+
+.footer-col .copy {
+  margin-top: 18px;
+  font-size: 11px;
+  opacity: 0.45;
+  color: #c9aee0;
+}
+
+/* Right column */
+.footer-col-right {
+  text-align: right;
+}
+
+.footer-col-right a {
+  text-align: right;
+}
+
+/* Social block */
+.footer-social {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.social-label {
+  font-size: 11px;
+  opacity: 0.55;
+}
+
+.social-icons {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.social-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  text-decoration: none;
+  color: white;
+  flex-shrink: 0;
+}
+
+.si-fb { background: #1877f2; }
+.si-ig { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fd5949 45%, #d6249f 60%, #285aeb 90%); }
+.si-yt { background: #ff0000; font-size: 9px; }
+.si-li { background: #0a66c2; font-size: 10px; }
+
+.footer-tagline {
   margin-top: 20px;
   font-size: 12px;
-  opacity: 0.6;
+  opacity: 0.55;
+  color: #c9aee0;
 }
 
-.footer-col.right { text-align: right; }
-.footer-col .small { font-size: 12px; opacity: 0.6; }
-
 @media (max-width: 1024px) {
-  .footer-links { flex-direction: column; align-items: center; gap: 40px; }
-  .footer-col.right { text-align: center; }
-  .footer-logo img { width: 260px; }
+  .footer-links {
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    padding: 0 30px;
+  }
+  .footer-col-right { text-align: left; }
+  .footer-social { align-items: flex-start; }
+  .social-icons { justify-content: flex-start; }
+  .footer-logo { padding-top: 50%; }
+  .footer-logo img { width: 220px; }
 }
 
 /* ── Keep all content sections above the fixed hero ── */
