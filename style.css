@@ -274,20 +274,21 @@ body {
 
 /* ── SERVICES CARD STACK SCENE ── */
 
+/* ================= SERVICES SECTION (UPDATED) ================= */
+
 .service-stack-scene {
   position: relative;
-  max-width: 1100px;
+  max-width: 1250px;   /* wider than before */
   margin: 0 auto;
-  /* height is controlled by JS pinning — just needs to be tall enough */
   padding-bottom: 60px;
 }
 
-/* ================= SERVICES SECTION (REF EXACT) ================= */
-
 .service-stack-inner {
   position: relative;
-  height: 620px; /* Taller like reference */
+  height: 520px;   /* reduced height */
 }
+
+/* ALL cards now share same background as data-card="1" */
 
 .service-card {
   position: absolute;
@@ -297,90 +298,53 @@ body {
   justify-content: space-between;
   align-items: center;
 
-  padding: 90px 100px;
+  padding: 70px 90px;   /* reduced vertical padding */
   border-radius: 32px;
 
-  background: #1d0726;
+  background: #1d0726;  /* same for ALL cards */
   border: 1px solid rgba(255,255,255,0.08);
 
   background-image:
     linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
 
-  background-size: 32px 32px; /* finer grid */
-  transform-origin: center bottom;
+  background-size: 32px 32px;
 
+  transform-origin: center bottom;
   will-change: transform, opacity;
 }
 
-/* DEPTH LAYERS */
+/* DEPTH — only position/scale difference, NO background difference */
+
 .service-card[data-card="2"] {
-  transform: translateY(22px) scale(0.96);
-  background: #190521;
-  border-color: rgba(255,255,255,0.06);
+  transform: translateY(20px) scale(0.97);
 }
 
 .service-card[data-card="3"] {
-  transform: translateY(44px) scale(0.93);
-  background: #16041c;
-  border-color: rgba(255,255,255,0.05);
+  transform: translateY(40px) scale(0.94);
 }
 
 .service-card[data-card="4"] {
-  transform: translateY(66px) scale(0.90);
-  background: #120317;
-  border-color: rgba(255,255,255,0.04);
+  transform: translateY(60px) scale(0.91);
 }
 
 /* TEXT */
 .service-content h3 {
-  font-size: 40px;
+  font-size: 38px;   /* slightly reduced */
   font-weight: 600;
   line-height: 1.15;
-  margin: 20px 0 24px;
+  margin: 18px 0 20px;
 }
 
 .service-content p {
-  max-width: 480px;
+  max-width: 520px;
   font-size: 15px;
   line-height: 1.7;
-  opacity: 0.7;
-}
-
-.service-number {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 46px;
-  height: 28px;
-
-  border-radius: 20px;
-  background: rgba(255,255,255,0.06);
-border: 1px solid rgba(255,255,255,0.10);
-
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 1px;
-  color: rgba(255,255,255,0.8);
-
-  margin-bottom: 18px;
+  opacity: 0.75;
 }
 
 .service-image img {
-  width: 340px;
-}
-
-@media (max-width: 1024px) {
-  .about-services { padding: 80px 30px; }
-  .about-card { flex-direction: column; text-align: center; }
-  .service-card { flex-direction: column; text-align: center; padding: 40px 30px; }
-  .service-image img { width: 200px; margin-top: 30px; }
-  .service-stack-inner { height: auto; }
-  .service-card { position: relative; inset: auto; transform: none !important; margin-bottom: 20px; }
-  .service-card[data-card="2"],
-  .service-card[data-card="3"],
-  .service-card[data-card="4"] { transform: none; }
+  width: 320px;  /* slightly tighter */
 }
 
 /* ================= PARTNERS SECTION ================= */
@@ -456,7 +420,7 @@ border: 1px solid rgba(255,255,255,0.10);
   backdrop-filter: blur(6px);
 }
 .partner-card h3 { font-size: 22px; margin-bottom: 15px; }
-.partner-card p  { font-size: 14px; line-height: 1.6; opacity: 0.85; }
+.partner-card p  { font-size: 14px; line-height: 1.6; opacity: 0.65; }
 
 @media (max-width: 1200px) {
   .partners-row { flex-direction: column; align-items: center; }
