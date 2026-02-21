@@ -161,12 +161,21 @@ body {
   z-index: 10;
 }
 
-/* Desktop link groups */
+/* Desktop link groups — flex:1 ensures logo stays dead-centre */
 .nav-left-desktop,
 .nav-right-desktop {
   display: flex;
   align-items: center;
   gap: 40px;
+  flex: 1;
+}
+
+.nav-left-desktop {
+  justify-content: flex-end;
+}
+
+.nav-right-desktop {
+  justify-content: flex-start;
 }
 
 /* Logo always centered */
@@ -175,6 +184,7 @@ body {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  margin: 0 40px;
 }
 
 .navbar a {
