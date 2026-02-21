@@ -15,7 +15,10 @@ body {
 .intro {
   position: relative;
   height: 100vh;
-  background: #8733E8;
+  /* Use background-color, not the 'background' shorthand.
+     GSAP sets backgroundColor inline; if 'background' shorthand exists in CSS
+     it can override GSAP's inline style during repaints on some browsers. */
+  background-color: #8733E8;
   overflow: visible;
   z-index: 20;
 }
@@ -1801,6 +1804,103 @@ body {
 
   .footer-links { padding: 0 12px; }
   .footer-col a { font-size: 11px; }
+}
+
+
+/* ── LANDSCAPE PHONE (short viewport, wide screen) ── */
+/* Fires when height < 500px AND in landscape — covers rotated phones */
+@media (max-height: 500px) and (orientation: landscape) {
+  /* Intro: use full viewport but allow scrolling content inside */
+  .intro {
+    height: 100vh;
+  }
+
+  /* Logo smaller so it fits the short screen */
+  .logo {
+    width: 200px;
+    max-width: 40vw;
+  }
+
+  /* Hide intro floats — no room */
+  .intro-float {
+    display: none;
+  }
+
+  /* Hero content: less top margin so it fits vertically */
+  .hero-content {
+    margin-top: 20px;
+    padding: 0 24px;
+  }
+
+  .hero-content h1 {
+    font-size: clamp(20px, 4vw, 34px);
+    margin-bottom: 12px;
+  }
+
+  .hero-content p {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .tag-pill {
+    font-size: 11px;
+    padding: 5px 12px;
+    margin-bottom: 12px;
+  }
+
+  /* Navbar */
+  .navbar       { padding: 10px 20px; }
+  .nav-center img { height: 44px; }
+
+  /* Scroll hint hidden — not enough vertical room */
+  .scroll-text { display: none; }
+
+  /* Hero floats hidden */
+  .float { display: none; }
+
+  /* All sections: tighter vertical padding in landscape */
+  .about-services,
+  .partners-section,
+  .why-section,
+  .newsletter-section,
+  .contact-section  { padding: 40px 32px; }
+  .projects-section { padding: 40px 32px 30px; }
+
+  /* Cards: horizontal layout preserved in landscape */
+  .about-card,
+  .why-card {
+    flex-direction: row;
+    text-align: left;
+    padding: 24px 32px;
+  }
+
+  .contact-card {
+    padding: 32px;
+    gap: 40px;
+  }
+
+  /* Service cards: flat layout in landscape phone */
+  .service-stack-inner {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    gap: 14px;
+  }
+
+  .service-card {
+    position: relative !important;
+    inset: auto !important;
+    transform: none !important;
+    padding: 20px 24px;
+  }
+
+  .service-card[data-card="1"] { order: 1; }
+  .service-card[data-card="2"] { order: 2; }
+  .service-card[data-card="3"] { order: 3; }
+  .service-card[data-card="4"] { order: 4; }
+
+  .premium-content { max-width: 70%; }
+  .premium-car     { width: 180px; opacity: 0.5; }
 }
 
 
