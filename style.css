@@ -371,6 +371,32 @@ body {
   justify-content: space-between;
   align-items: center;
   gap: 40px;
+  overflow: hidden;
+}
+
+/* ABOUT glow using Glow.png */
+.about-image {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.about-glow {
+  position: absolute;
+  top: 50%;
+  right: -60px; /* slightly shifted right like WHY */
+  transform: translateY(-50%) scale(4.8);
+  transform-origin: center;
+  opacity: 0.9;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.about-main-img {
+  position: relative;
+  z-index: 1;
+  width: 190px;
 }
 
 .about-text h2 {
@@ -420,14 +446,7 @@ body {
   padding: 70px 90px;
   border-radius: 32px;
 
-  background: #1d0726;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-
-  background-size: 32px 32px;
+  
 
   transform-origin: center bottom;
   will-change: transform, opacity;
@@ -633,13 +652,40 @@ body {
 }
 
 .why-card {
-  background: linear-gradient(135deg, #2b003a, #3d0060);
+  background: #22082a;
   border-radius: 30px;
   padding: 20px 40px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 40px;
+  overflow: hidden;
+}
+
+/* WHY glow using Glow.png */
+.why-image {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.why-glow {
+  position: absolute;
+  transform: translateY(0%) scale(3.4);  /* THIS increases visual size */
+  transform-origin: center;
+  right: -70px;              /* move slightly to right */
+  
+  opacity: 1;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.why-main-img {
+  position: relative;
+  z-index: 1;
+  width: 300px;
+  max-width: 100%;
 }
 
 .why-text h2 {
