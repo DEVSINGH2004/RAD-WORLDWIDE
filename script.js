@@ -211,6 +211,8 @@ function createMainScrollTrigger() {
     },
 
     onLeave: () => {
+      /* Hide the intro overlay immediately so the purple bg can't flash on unpin */
+      gsap.set(introSection, { visibility: "hidden", opacity: 0 });
       gsap.set(heroSection, { opacity: 1, filter: "blur(0px)", scale: 1, zIndex: 0, visibility: "hidden" });
       gsap.set(heroNavbar, { opacity: 1, y: 0 });
       gsap.set(heroPill, { opacity: 1, y: 0 });
@@ -220,6 +222,8 @@ function createMainScrollTrigger() {
     },
 
     onEnterBack: () => {
+      /* Restore intro visibility before the reverse animation plays */
+      gsap.set(introSection, { visibility: "visible", opacity: 1, backgroundColor: "rgba(135, 51, 232, 1)" });
       gsap.set(heroSection, { visibility: "visible", zIndex: 10, opacity: 1, filter: "blur(0px)", scale: 1 });
       gsap.set(heroNavbar, { opacity: 0, y: -30 });
       gsap.set(heroPill, { opacity: 0, y: 40 });
@@ -227,7 +231,6 @@ function createMainScrollTrigger() {
       gsap.set(heroP, { opacity: 0, y: 40 });
       heroFloats.forEach(el => gsap.set(el, { opacity: 0, y: 30, scale: 0.85 }));
 
-      gsap.set(introSection, { opacity: 1, backgroundColor: "rgba(135, 51, 232, 1)" });
       gsap.set(allFloats, { opacity: 1, y: 0, scale: 1, rotation: 0 });
       gsap.set(logoWrapper, { opacity: 1 });
 
@@ -248,39 +251,51 @@ createMainScrollTrigger();
 let serviceST;
 
 function createServiceAnimation() {
-  // Kill existing service animation
   if (serviceST) {
     serviceST.kill();
   }
 
   const scene = document.querySelector(".service-stack-scene");
-  const cards = gsap.utils.toArray(".service-card").reverse();
+  if (!scene) return;
 
-  if (!scene || cards.length === 0) return;
-
-  /* Skip GSAP pin on mobile — CSS flex order handles layout */
+  /* Skip GSAP on mobile — CSS handles layout */
   if (isMobile()) return;
 
-  /* How far each card flies up when dismissed */
-  const EXIT_Y = "-110%";
+  /*
+   * DOM order: card4 → card3 → card2 → card1 (bottom to top in HTML)
+   * After reverse(): cards[0]=card1 (front), cards[3]=card4 (back)
+   */
+  const cards = gsap.utils.toArray(".service-card").reverse();
+  if (cards.length === 0) return;
 
-  /* Set initial peek positions for cards 2-4 */
-  const peekY = [0, 18, 36, 54];
+  /* Peek offsets — index 0 = front card, sits flush */
+  const peekY     = [0,  18,  36,  54];
   const peekScale = [1, 0.97, 0.94, 0.91];
 
+  /* Set starting state: explicit z-index so card1 is always on top,
+     full opacity on every card, correct peek positions */
   cards.forEach((card, i) => {
-    gsap.set(card, { y: peekY[i], scale: peekScale[i] });
+    gsap.set(card, {
+      y:       peekY[i],
+      scale:   peekScale[i],
+      opacity: 1,
+      zIndex:  cards.length - i   /* card1=4 (top) … card4=1 (bottom) */
+    });
   });
 
-  /* Responsive scroll per card */
   const scrollPerCard = window.innerWidth <= 1024 ? 280 : 340;
 
-  /* Build a timeline */
+  /*
+   * Only cards 0–2 (card1, card2, card3) exit upward.
+   * Card 4 stays visible as the final card — no exit for it.
+   */
+  const exitCount = cards.length - 1;   /* 3 exits */
+
   const tl = gsap.timeline({
     scrollTrigger: {
       trigger: scene,
       start: "top 15%",
-      end: `+=${cards.length * scrollPerCard}`,
+      end: `+=${exitCount * scrollPerCard}`,
       scrub: 1,
       pin: true,
       anticipatePin: 1,
@@ -289,26 +304,28 @@ function createServiceAnimation() {
 
   serviceST = tl.scrollTrigger;
 
-  cards.forEach((card, i) => {
+  for (let i = 0; i < exitCount; i++) {
+    const t = i * 1.2;
     const remaining = cards.slice(i + 1);
 
-    tl.to(card, {
-      y: EXIT_Y,
+    /* Fly current top card straight up — NO opacity change */
+    tl.to(cards[i], {
+      y: "-115%",
       scale: 1,
-      opacity: 0,
       ease: "power2.in",
       duration: 1
-    }, i * 1.2);
+    }, t);
 
-    remaining.forEach((below, j) => {
-      tl.to(below, {
-        y: peekY[j],
+    /* Advance the remaining cards one step forward */
+    remaining.forEach((card, j) => {
+      tl.to(card, {
+        y:     peekY[j],
         scale: peekScale[j],
-        ease: "power2.out",
+        ease:  "power2.out",
         duration: 1
-      }, i * 1.2);
+      }, t);
     });
-  });
+  }
 }
 
 createServiceAnimation();
