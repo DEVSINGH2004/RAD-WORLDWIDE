@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -27,14 +28,14 @@
 
       <!-- ── FLOATING OBJECTS inside intro ── -->
       <!-- Group A → fly UP on scroll -->
-      <img src="assets/shirt.png"   class="intro-float if-shirt"   data-dir="up"   alt="">
-      <img src="assets/gamepad.png" class="intro-float if-gamepad" data-dir="up"   alt="">
-      <img src="assets/cap.png"     class="intro-float if-cap"     data-dir="up"   alt="">
+      <img src="assets/shirt.png" class="intro-float if-shirt" data-dir="up" alt="">
+      <img src="assets/gamepad.png" class="intro-float if-gamepad" data-dir="up" alt="">
+      <img src="assets/cap.png" class="intro-float if-cap" data-dir="up" alt="">
 
       <!-- Group B → fly DOWN on scroll -->
-      <img src="assets/car.png"     class="intro-float if-car"     data-dir="down" alt="">
-      <img src="assets/music.png"   class="intro-float if-music"   data-dir="down" alt="">
-      <img src="assets/shoe.png"    class="intro-float if-shoe"    data-dir="down" alt="">
+      <img src="assets/car.png" class="intro-float if-car" data-dir="down" alt="">
+      <img src="assets/music.png" class="intro-float if-music" data-dir="down" alt="">
+      <img src="assets/shoe.png" class="intro-float if-shoe" data-dir="down" alt="">
 
       <div class="scroll-text">SCROLL DOWN</div>
 
@@ -44,19 +45,34 @@
 
       <!-- NAVBAR -->
       <header class="navbar">
-        <div class="nav-left">
+        <div class="nav-left-desktop">
           <a href="#">HOME</a>
           <a href="#">SERVICES</a>
           <a href="#">ABOUT US</a>
-          
         </div>
+
         <div class="nav-center">
           <img src="assets/logo-rad.png" alt="RAD Logo">
         </div>
-        <div class="nav-right">
+
+        <div class="nav-right-desktop">
           <a href="#">CLIENTS</a>
           <a href="#" class="contact-btn">CONTACT US</a>
         </div>
+
+        <!-- Hamburger (visible only on mobile/tablet) -->
+        <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+          <span></span><span></span><span></span>
+        </button>
+
+        <!-- Mobile fullscreen overlay menu -->
+        <nav class="nav-menu" id="navMenu">
+          <a href="#">HOME</a>
+          <a href="#">SERVICES</a>
+          <a href="#">ABOUT US</a>
+          <a href="#">CLIENTS</a>
+          <a href="#" class="contact-btn">CONTACT US</a>
+        </nav>
       </header>
 
       <!-- HERO CONTENT -->
@@ -73,16 +89,16 @@
       </div>
 
       <!-- FLOATING OBJECTS in hero (decorative, visible after animation) -->
-      <img src="assets/car.png"     class="float car">
-      <img src="assets/car.png"     class="float car2">
+      <img src="assets/car.png" class="float car">
+      <img src="assets/car.png" class="float car2">
       <img src="assets/gamepad.png" class="float gamepad">
-      <img src="assets/shirt.png"   class="float shirt">
-      <img src="assets/shirt.png"   class="float shirt2">
-      <img src="assets/cap.png"     class="float cap">
-      <img src="assets/music.png"   class="float music">
-      <img src="assets/music.png"   class="float music2">
-      <img src="assets/shoe.png"    class="float shoe">
-      <img src="assets/shoe.png"    class="float shoe2">
+      <img src="assets/shirt.png" class="float shirt">
+      <img src="assets/shirt.png" class="float shirt2">
+      <img src="assets/cap.png" class="float cap">
+      <img src="assets/music.png" class="float music">
+      <img src="assets/music.png" class="float music2">
+      <img src="assets/shoe.png" class="float shoe">
+      <img src="assets/shoe.png" class="float shoe2">
 
     </section>
 
@@ -91,7 +107,9 @@
       <div class="about-card">
         <div class="about-text">
           <h2>ABOUT US</h2>
-          <p>Fandom is the new frontier of growth, and RAD Worldwide leads it by connecting sports, entertainment, and creator IPs with fans through meaningful products and collaborations. We go beyond licensing to build cultural connections that turn attention into loyalty and relevance into revenue.</p>
+          <p>Fandom is the new frontier of growth, and RAD Worldwide leads it by connecting sports, entertainment, and
+            creator IPs with fans through meaningful products and collaborations. We go beyond licensing to build
+            cultural connections that turn attention into loyalty and relevance into revenue.</p>
         </div>
         <div class="about-image">
           <img src="assets/aboutus-img.png" alt="About">
@@ -108,7 +126,8 @@
             <div class="service-content">
               <span class="service-number">04</span>
               <h3>Fan Engagement<br>& Community</h3>
-              <p>We design fan-first experiences that go beyond content — activations, drops, and community programmes that turn passive audiences into active brand advocates and long-term revenue streams.</p>
+              <p>We design fan-first experiences that go beyond content — activations, drops, and community programmes
+                that turn passive audiences into active brand advocates and long-term revenue streams.</p>
             </div>
             <div class="service-image">
               <img src="assets/cap.png" alt="Cap">
@@ -119,7 +138,8 @@
             <div class="service-content">
               <span class="service-number">03</span>
               <h3>Creator &amp; Talent<br>IP Development</h3>
-              <p>We work with creators and talent to build sustainable IP ecosystems — from merchandise strategy and brand partnerships to long-term licensing structures that grow with their audience.</p>
+              <p>We work with creators and talent to build sustainable IP ecosystems — from merchandise strategy and
+                brand partnerships to long-term licensing structures that grow with their audience.</p>
             </div>
             <div class="service-image">
               <img src="assets/gamepad.png" alt="Gamepad">
@@ -130,7 +150,8 @@
             <div class="service-content">
               <span class="service-number">02</span>
               <h3>Brand &amp; IP<br>Partnerships</h3>
-              <p>We connect brands with the right sports, entertainment, and creator IPs to build co-branded products and campaigns that feel culturally authentic and drive measurable commercial results.</p>
+              <p>We connect brands with the right sports, entertainment, and creator IPs to build co-branded products
+                and campaigns that feel culturally authentic and drive measurable commercial results.</p>
             </div>
             <div class="service-image">
               <img src="assets/shirt.png" alt="Shirt">
@@ -138,12 +159,14 @@
           </div>
 
           <div class="service-card" data-card="1">
-            
+
 
             <div class="service-content">
               <span class="service-number">01</span>
               <h3>Licensing Strategy<br>&amp; Commercial Design</h3>
-              <p>We build licensing strategies that scale. From IP positioning and category planning to territory strategy and deal structures, we align creative ambition with revenue goals — creating clear, decision-ready roadmaps for growth.</p>
+              <p>We build licensing strategies that scale. From IP positioning and category planning to territory
+                strategy and deal structures, we align creative ambition with revenue goals — creating clear,
+                decision-ready roadmaps for growth.</p>
             </div>
             <div class="service-image">
               <img src="assets/car.png" alt="Car">
@@ -163,15 +186,17 @@
           <div class="card-inner"><img src="assets/shirt.png" alt=""></div>
           <span class="card-number">01</span>
           <h3>Sports & Entertainment Right Holders</h3>
-          <p>leagues, teams, studios, and independent sports media looking to localise content, launch fan engagement initiatives and monetise IP</p>
+          <p>leagues, teams, studios, and independent sports media looking to localise content, launch fan engagement
+            initiatives and monetise IP</p>
         </div>
         <div class="partner-card2">
           <div class="card-inner"><img src="assets/shoe.png" alt=""></div>
           <span class="card-number">02</span>
           <h3>Brands & Partners</h3>
-          <p>Companies aiming to collaborate with creators, athletes and IPs to deliver co-branded products, activations and campaigns.</p>
+          <p>Companies aiming to collaborate with creators, athletes and IPs to deliver co-branded products, activations
+            and campaigns.</p>
         </div>
-        
+
       </div>
 
       <div class="partners-row row-3">
@@ -179,21 +204,24 @@
           <div class="card-inner"><img src="assets/gamepad.png" alt=""></div>
           <span class="card-number">03</span>
           <h3>Gaming Teams & Gamers</h3>
-          <p>Competitive and community driven gaming organisations, esports teams and individual players seeking licensing and merchandising opportunities</p>
+          <p>Competitive and community driven gaming organisations, esports teams and individual players seeking
+            licensing and merchandising opportunities</p>
         </div>
-        
-        
+
+
         <div class="partner-card4">
           <div class="card-inner"><img src="assets/music.png" alt=""></div>
           <span class="card-number">04</span>
           <h3>Digital & Content IPs</h3>
-          <p>Growing digital first brands, podcasts and independent media ventures looking to expand reach merchandise and fan engagement</p>
+          <p>Growing digital first brands, podcasts and independent media ventures looking to expand reach merchandise
+            and fan engagement</p>
         </div>
         <div class="partner-card5">
           <div class="card-inner"><img src="assets/cap.png" alt=""></div>
           <span class="card-number">05</span>
           <h3>Creators & Talent</h3>
-          <p>Independent artists, gamers, and content creators building long term IPs, merchandise lines, and collaborations.</p>
+          <p>Independent artists, gamers, and content creators building long term IPs, merchandise lines, and
+            collaborations.</p>
         </div>
       </div>
     </section>
@@ -209,7 +237,9 @@
       <div class="why-card">
         <div class="why-text">
           <h2>WHY RAD WORLDWIDE</h2>
-          <p>Fandom is the new frontier of growth, and RAD Worldwide leads it by connecting sports, entertainment, and creator IPs with fans through meaningful products and collaborations. We go beyond licensing to build cultural connections that turn attention into loyalty and relevance into revenue.</p>
+          <p>Fandom is the new frontier of growth, and RAD Worldwide leads it by connecting sports, entertainment, and
+            creator IPs with fans through meaningful products and collaborations. We go beyond licensing to build
+            cultural connections that turn attention into loyalty and relevance into revenue.</p>
         </div>
         <div class="why-image">
           <img src="assets/whyimg.png" alt="">
@@ -222,7 +252,8 @@
       <div class="newsletter-card">
         <div class="newsletter-text">
           <h2>Stay Ahead Of Where Licensing<br>Is Heading</h2>
-          <p>Licensing RADar delivers weekly insights on sports, creators entertainment, and IP - focused on what's changing, why it matters and how to act.</p>
+          <p>Licensing RADar delivers weekly insights on sports, creators entertainment, and IP - focused on what's
+            changing, why it matters and how to act.</p>
           <button class="newsletter-btn">Read The Newsletter</button>
         </div>
       </div>
@@ -247,7 +278,9 @@
           </div>
           <div class="form-group inline-field">
             <label>Services:</label>
-            <select><option>select an option</option></select>
+            <select>
+              <option>select an option</option>
+            </select>
           </div>
           <div class="form-group message-field">
             <label>Message:</label>
@@ -327,4 +360,5 @@
 
   <script src="script.js"></script>
 </body>
+
 </html>
