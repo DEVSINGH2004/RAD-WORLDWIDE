@@ -543,14 +543,14 @@ body {
 .partner-card5 {
   background-color: #22082a;
   border-radius: 30px;
-  padding: 30px;
+  padding: 12px;
   text-align: center;
   position: relative;
   overflow: hidden;
 }
 
 .card-inner {
-  background: rgba(255, 255, 255, 0.026);
+  background: #190321;
   border-radius: 20px;
   padding: 40px;
   margin-bottom: 25px;
@@ -558,6 +558,24 @@ body {
     linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
   background-size: 40px 40px;
+  overflow: hidden;
+  position: relative;
+}
+
+.partner-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 50%) scale(4.2);
+  transform-origin: center;
+  opacity: 0.8;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.partner-main-img {
+  position: relative;
+  z-index: 1;
 }
 
 .card-inner img {
