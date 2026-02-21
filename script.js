@@ -224,19 +224,26 @@ function createMainScrollTrigger() {
     },
 
     onEnterBack: () => {
-      /* Restore intro + hero visibility before reverse animation plays */
-      gsap.set(introSection, { visibility: "visible", opacity: 1, backgroundColor: "rgba(135, 51, 232, 1)" });
-      gsap.set(heroSection, { zIndex: 10, opacity: 1, filter: "blur(0px)", scale: 1 });
-      gsap.set(heroNavbar, { opacity: 0, y: -30 });
-      gsap.set(heroPill, { opacity: 0, y: 40 });
-      gsap.set(heroH1, { opacity: 0, y: 50 });
-      gsap.set(heroP, { opacity: 0, y: 40 });
-      heroFloats.forEach(el => gsap.set(el, { opacity: 0, y: 30, scale: 0.85 }));
+      /*
+       * Progress re-enters at p=1.0 and scrubs backward toward 0.
+       * Must match the exact p=1.0 state — no snapping to wrong values:
+       *  • intro : visible but opacity 0 (fully faded at p=1.0)
+       *  • hero  : z-index restored; children stay at opacity 1 (correct for p=1.0)
+       *  • logo  : opacity 0 (fully faded at p=1.0)
+       */
+      gsap.set(introSection, {
+        visibility: "visible",
+        opacity: 0,
+        backgroundColor: "rgba(135, 51, 232, 1)"
+      });
+      gsap.set(heroSection, { zIndex: 10 });
+      gsap.set(logoWrapper, { opacity: 0 });
+      /* Hero children stay fully visible (set by onLeave) — correct for p=1.0 */
+      /* Intro floats stay hidden — onUpdate restores them as scroll reverses */
+    },
 
-      gsap.set(allFloats, { opacity: 1, y: 0, scale: 1, rotation: 0 });
-      gsap.set(logoWrapper, { opacity: 1 });
-
-      /* Revive idle tweens */
+    onLeaveBack: () => {
+      /* Scrolled all the way back to the start — revive idle float tweens */
       idleKilled = false;
       createIdleTweens();
     }
