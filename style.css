@@ -7,7 +7,7 @@
 body {
   overflow-x: hidden;
   font-family: 'Bricolage Grotesque', 'Helvetica Neue', Arial, sans-serif;
-  background: #8733E8;
+  background: #100318; /* dark — matches about section so no purple flash if hero/intro are momentarily hidden */
 }
 
 /* ================= INTRO ================= */

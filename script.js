@@ -211,9 +211,11 @@ function createMainScrollTrigger() {
     },
 
     onLeave: () => {
-      /* Hide the intro overlay immediately so the purple bg can't flash on unpin */
-      gsap.set(introSection, { visibility: "hidden", opacity: 0 });
-      gsap.set(heroSection, { opacity: 1, filter: "blur(0px)", scale: 1, zIndex: 0, visibility: "hidden" });
+      /* Fully hide the intro section so it can't flash purple on unpin */
+      gsap.set(introSection, { visibility: "hidden", opacity: 0, backgroundColor: "transparent" });
+      /* Push hero behind normal-flow content rather than hiding it —
+         avoids the one-frame gap where only the purple body bg is visible */
+      gsap.set(heroSection, { opacity: 1, filter: "blur(0px)", scale: 1, zIndex: -1 });
       gsap.set(heroNavbar, { opacity: 1, y: 0 });
       gsap.set(heroPill, { opacity: 1, y: 0 });
       gsap.set(heroH1, { opacity: 1, y: 0 });
@@ -222,9 +224,9 @@ function createMainScrollTrigger() {
     },
 
     onEnterBack: () => {
-      /* Restore intro visibility before the reverse animation plays */
+      /* Restore intro + hero visibility before reverse animation plays */
       gsap.set(introSection, { visibility: "visible", opacity: 1, backgroundColor: "rgba(135, 51, 232, 1)" });
-      gsap.set(heroSection, { visibility: "visible", zIndex: 10, opacity: 1, filter: "blur(0px)", scale: 1 });
+      gsap.set(heroSection, { zIndex: 10, opacity: 1, filter: "blur(0px)", scale: 1 });
       gsap.set(heroNavbar, { opacity: 0, y: -30 });
       gsap.set(heroPill, { opacity: 0, y: 40 });
       gsap.set(heroH1, { opacity: 0, y: 50 });
