@@ -6,7 +6,7 @@
 
 body {
   overflow-x: hidden;
-  font-family: sans-serif;
+  font-family: 'Bricolage Grotesque', 'Helvetica Neue', Arial, sans-serif;
   background: #8733E8;
 }
 
@@ -184,7 +184,7 @@ body {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  margin: 0 40px;
+  margin: 0 340px;
 }
 
 .navbar a {
@@ -267,8 +267,8 @@ body {
 }
 
 .hero-content h1 {
-  font-size: clamp(28px, 6vw, 72px);
-  font-weight: 600;
+  font-size: clamp(32px, 6vw, 80px);
+  font-weight: 800;
   line-height: 1.1;
   margin-bottom: 25px;
 }
@@ -276,9 +276,10 @@ body {
 .hero-content p {
   max-width: 700px;
   margin: 0 auto;
-  font-size: clamp(14px, 1.6vw, 16px);
-  line-height: 1.6;
-  opacity: 0.85;
+  font-size: clamp(13px, 1.4vw, 16px);
+  font-weight: 400;
+  line-height: 1.65;
+  opacity: 0.8;
 }
 
 /* ── FLOATING OBJECTS ── */
@@ -289,14 +290,14 @@ body {
 
 .car {
   top: 100px;
-  left: 400px;
-  width: 140px;
+  left: 500px;
+  width: 100px;
 }
 
 .gamepad {
   top: 100px;
   right: 350px;
-  width: 150px;
+  width: 100px;
 }
 
 .car2 {
@@ -312,8 +313,8 @@ body {
 }
 
 .shirt2 {
-  bottom: 200px;
-  right: 200px;
+  bottom: 60px;
+  right: 620px;
   width: 120px;
 }
 
@@ -331,8 +332,8 @@ body {
 }
 
 .shoe {
-  bottom: 80px;
-  right: 480px;
+  bottom: 40px;
+  right: 380px;
   width: 120px;
 }
 
@@ -368,7 +369,7 @@ body {
 }
 
 .about-text h2 {
-  font-size: clamp(32px, 5vw, 58px);
+  font-size: clamp(28px, 4.5vw, 56px);  font-weight: 800;  letter-spacing: -0.5px;
   margin-bottom: 15px;
 }
 
@@ -376,7 +377,7 @@ body {
   max-width: 600px;
   opacity: 0.85;
   line-height: 1.6;
-  font-size: clamp(14px, 1.5vw, 16px);
+  font-size: clamp(13px, 1.3vw, 15px);  font-weight: 400;
 }
 
 .about-image img {
@@ -385,7 +386,7 @@ body {
 
 .services-title {
   text-align: center;
-  font-size: clamp(32px, 5vw, 48px);
+  font-size: clamp(30px, 5vw, 52px);  font-weight: 800;  letter-spacing: -0.5px;
   margin: 120px 0 60px;
 }
 
@@ -440,17 +441,18 @@ body {
 }
 
 .service-content h3 {
-  font-size: clamp(24px, 3.5vw, 38px);
-  font-weight: 600;
+  font-size: clamp(22px, 3.2vw, 38px);
+  font-weight: 700;
   line-height: 1.15;
   margin: 18px 0 20px;
 }
 
 .service-content p {
   max-width: 520px;
-  font-size: clamp(13px, 1.4vw, 15px);
-  line-height: 1.7;
-  opacity: 0.75;
+  font-size: clamp(13px, 1.3vw, 15px);  font-weight: 400;
+  font-weight: 400;
+  line-height: 1.75;
+  opacity: 0.7;
 }
 
 .service-number {
@@ -473,7 +475,7 @@ body {
 
 .partners-title {
   text-align: center;
-  font-size: clamp(32px, 5vw, 56px);
+  font-size: clamp(28px, 5vw, 52px);  font-weight: 800;  letter-spacing: -0.5px;
   margin-bottom: 80px;
 }
 
@@ -552,9 +554,9 @@ body {
   padding: 6px 16px;
   border-radius: 999px;
 
-  font-size: 12px;
-  letter-spacing: 1.5px;
-  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: 2px;
+  font-weight: 600;
 
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.07);
@@ -569,7 +571,7 @@ body {
 .partner-card3 h3,
 .partner-card4 h3,
 .partner-card5 h3 {
-  font-size: clamp(18px, 2vw, 22px);
+  font-size: clamp(15px, 1.8vw, 20px);  font-weight: 700;
   margin-bottom: 15px;
 }
 
@@ -578,8 +580,9 @@ body {
 .partner-card3 p,
 .partner-card4 p,
 .partner-card5 p {
-  font-size: clamp(13px, 1.3vw, 14px);
-  line-height: 1.6;
+  font-size: clamp(12px, 1.1vw, 13px);  font-weight: 400;
+  font-weight: 400;
+  line-height: 1.65;
   opacity: 0.65;
 }
 
@@ -593,7 +596,7 @@ body {
 }
 
 .projects-title {
-  font-size: clamp(32px, 5vw, 56px);
+  font-size: clamp(28px, 5vw, 52px);  font-weight: 800;  letter-spacing: -0.5px;
   margin-bottom: 60px;
 }
 
@@ -635,7 +638,7 @@ body {
 }
 
 .why-text h2 {
-  font-size: clamp(28px, 4vw, 40px);
+  font-size: clamp(26px, 3.8vw, 42px);  font-weight: 800;  letter-spacing: -0.5px;
   margin-bottom: 20px;
 }
 
@@ -643,7 +646,7 @@ body {
   max-width: 600px;
   opacity: 0.85;
   line-height: 1.6;
-  font-size: clamp(14px, 1.5vw, 16px);
+  font-size: clamp(13px, 1.3vw, 15px);  font-weight: 400;
 }
 
 .why-image img {
@@ -670,7 +673,7 @@ body {
 }
 
 .newsletter-text h2 {
-  font-size: clamp(24px, 3.5vw, 36px);
+  font-size: clamp(22px, 3.5vw, 40px);  font-weight: 800;  letter-spacing: -0.3px;
   margin-bottom: 40px;
 }
 
@@ -679,7 +682,7 @@ body {
   opacity: 0.85;
   line-height: 1.6;
   margin-bottom: 30px;
-  font-size: clamp(14px, 1.5vw, 16px);
+  font-size: clamp(13px, 1.3vw, 15px);  font-weight: 400;
 }
 
 .newsletter-btn {
@@ -688,7 +691,7 @@ body {
   padding: 18px 40px;
   border-radius: 20px;
   border: none;
-  font-size: clamp(24px, 4vw, 45px);
+  font-size: clamp(15px, 1.8vw, 22px);
   font-weight: 700;
   opacity: 0.7;
   cursor: pointer;
@@ -723,8 +726,8 @@ body {
 }
 
 .contact-left h2 {
-  font-size: clamp(30px, 4vw, 42px);
-  font-weight: 600;
+  font-size: clamp(26px, 3.5vw, 44px);
+  font-weight: 800;
   margin-bottom: 18px;
 }
 
@@ -744,8 +747,8 @@ body {
   border: none;
   background: #1a0025;
   color: white;
-  font-size: clamp(20px, 2.5vw, 26px);
-  font-weight: 600;
+  font-size: clamp(15px, 1.8vw, 22px);
+  font-weight: 700;
   cursor: pointer;
   transition: all 0.3s ease;
   margin-top: 40px;
@@ -969,7 +972,7 @@ body {
 
 .footer-tagline {
   margin-top: 20px;
-  font-size: clamp(1rem, 2vw, 1.7rem);
+  font-size: clamp(11px, 1.1vw, 13px);  font-weight: 500;
   opacity: 0.55;
   color: #c9aee0;
 }
