@@ -6,7 +6,6 @@ document.body.style.overflowX = "hidden";
 
 /* Helpers */
 function disableStack() {
-  /* Disable only on very small height landscape phones */
   return window.innerHeight < 500;
 }
 
@@ -25,24 +24,24 @@ const heroH1     = heroSection.querySelector("h1");
 const heroP      = heroSection.querySelector(".hero-content p");
 const heroFloats = heroSection.querySelectorAll(".float");
 
-/* Initial State */
+/* ================= INITIAL STATE ================= */
 function setInitialState() {
 
   gsap.set(heroSection, {
-    opacity: 1,
-    scale: 1.05,
-    zIndex: 10
+    opacity: 0,
+    scale: 1,
+    zIndex: 5
   });
 
   gsap.set([heroNavbar, heroPill, heroH1, heroP], {
     opacity: 0,
-    y: 50
+    y: 60
   });
 
   gsap.set(heroFloats, {
     opacity: 0,
     y: 40,
-    scale: 0.85
+    scale: 0.9
   });
 
   gsap.set(allFloats, {
@@ -56,11 +55,17 @@ function setInitialState() {
     opacity: 1,
     backgroundColor: "rgba(135,51,232,1)"
   });
+
+  /* Camera aimed slightly upward into A gap */
+  gsap.set(logoWrapper, { 
+    opacity: 1, 
+    transformOrigin: "50% 42%" 
+  });
 }
 
 setInitialState();
 
-/* INTRO SCROLL */
+/* ================= INTRO SCROLL ================= */
 let introST;
 
 function createIntro() {
@@ -73,7 +78,7 @@ function createIntro() {
     trigger: ".intro",
     start: "top top",
     end: `+=${scrollDist}`,
-    scrub: 0.8,
+    scrub: 0.9,
     pin: true,
     anticipatePin: 1,
 
@@ -81,17 +86,19 @@ function createIntro() {
 
       const p = self.progress;
 
+      /* LOGO ZOOM (through A gap) */
       gsap.set(logoWrapper, {
-        scale: 1 + p * 2.2,
-        z: p * window.innerHeight * 2.2,
-        y: p * window.innerHeight * 0.12,
+        scale: 1 + p * 3.2,
+        z: p * window.innerHeight * 3,
+        y: p * window.innerHeight * 0.15,
         force3D: true
       });
 
+      /* Floating objects fly out */
       floatsUp.forEach((el, i) => {
         const fp = gsap.utils.clamp(0,1,(p - 0.05 - i*0.02)/0.25);
         gsap.set(el, {
-          y: -fp * 150 + "vh",
+          y: -fp * 200 + "vh",
           opacity: 1 - fp
         });
       });
@@ -99,67 +106,82 @@ function createIntro() {
       floatsDown.forEach((el, i) => {
         const fp = gsap.utils.clamp(0,1,(p - 0.08 - i*0.02)/0.25);
         gsap.set(el, {
-          y: fp * 150 + "vh",
+          y: fp * 200 + "vh",
           opacity: 1 - fp
         });
       });
 
-      const fade = gsap.utils.clamp(0,1,(p - 0.60)/0.25);
-      gsap.set(introSection, { opacity: 1 - fade });
+      /* INTRO fades smoothly */
+      const fadeIntro = gsap.utils.clamp(0,1,(p - 0.70)/0.10);
+      gsap.set(introSection, { opacity: 1 - fadeIntro });
 
-      /* Faster hero reveal */
-      const reveal = gsap.utils.clamp(0,1,(p - 0.82)/0.06);
+      /* HERO fully set by ~90% gap entry */
+      const reveal = gsap.utils.clamp(0,1,(p - 0.75)/0.30);
 
-      gsap.set(heroSection, {
-        scale: 1.05 - reveal*0.05
-      });
+      gsap.set(heroSection, { opacity: reveal });
 
-      gsap.set(heroNavbar, { opacity: reveal, y: -40*(1-reveal) });
-      gsap.set(heroPill,   { opacity: reveal, y:  50*(1-reveal) });
-      gsap.set(heroH1,     { opacity: reveal, y:  60*(1-reveal) });
-      gsap.set(heroP,      { opacity: reveal, y:  50*(1-reveal) });
+      gsap.set(heroNavbar, { opacity: reveal, y: -50*(1-reveal) });
+      gsap.set(heroPill,   { opacity: reveal, y:  60*(1-reveal) });
+      gsap.set(heroH1,     { opacity: reveal, y:  70*(1-reveal) });
+      gsap.set(heroP,      { opacity: reveal, y:  60*(1-reveal) });
 
       heroFloats.forEach(el => {
         gsap.set(el, {
           opacity: reveal,
           y: 40*(1-reveal),
-          scale: 0.85 + reveal*0.15
+          scale: 0.9 + reveal*0.1
         });
       });
     },
 
     onLeave: () => {
       gsap.set(introSection, {
-        opacity: 0,
-        backgroundColor: "#100318"
+        opacity: 0
       });
-      gsap.set(heroSection, { zIndex: -1 });
+
+      gsap.set(heroSection, { 
+        zIndex: -1, 
+        opacity: 1 
+      });
     },
 
     onEnterBack: () => {
-      gsap.set(heroSection, { zIndex: 10 });
+      gsap.set(heroSection, { zIndex: 5 });
+    },
+
+    onLeaveBack: () => {
+      /* Restore exact original purple state */
+      gsap.set(introSection, {
+        opacity: 1,
+        backgroundColor: "rgba(135,51,232,1)"
+      });
+
+      gsap.set(heroSection, { opacity: 0 });
     }
   });
 }
 
 createIntro();
 
-/* SERVICES STACK */
+/* ================= SERVICES STACK ================= */
 let serviceST;
 
 function createServices() {
 
-  if (serviceST) serviceST.kill();
+  if (serviceST) {
+    serviceST.kill();
+    serviceST = null;
+  }
+
+  if (disableStack()) return;
 
   const scene = document.querySelector(".service-stack-scene");
   const cards = gsap.utils.toArray(".service-card");
 
   if (!scene || !cards.length) return;
 
-  /* 🔥 NOW WORKS ON 430x932 */
-  if (disableStack()) return;
-
   const reversed = [...cards].reverse();
+
   const peekY = [0, 20, 40, 60];
   const peekScale = [1, 0.97, 0.94, 0.91];
 
@@ -171,7 +193,7 @@ function createServices() {
     });
   });
 
-  const scrollPerCard = window.innerHeight * 0.7;
+  const scrollPerCard = window.innerHeight * 0.75;
 
   const tl = gsap.timeline({
     scrollTrigger: {
@@ -191,7 +213,7 @@ function createServices() {
     const remaining = reversed.slice(i + 1);
 
     tl.to(reversed[i], {
-      y: "-120%",
+      y: "-130%",
       ease: "power2.in",
       duration: 1
     }, i);
@@ -209,7 +231,7 @@ function createServices() {
 
 createServices();
 
-/* REBUILD */
+/* ================= REBUILD ================= */
 let resizeTimer;
 let lastW = window.innerWidth;
 let lastH = window.innerHeight;
