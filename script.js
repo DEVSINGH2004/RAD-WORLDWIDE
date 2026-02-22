@@ -1,39 +1,16 @@
 gsap.registerPlugin(ScrollTrigger);
-
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   GSAP CONFIG
-   ignoreMobileResize: stops ScrollTrigger from firing on
-   every pixel of the mobile browser-chrome sliding in/out.
-   We handle real resizes ourselves.
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 ScrollTrigger.config({ ignoreMobileResize: true });
 
-/* ── Viewport helpers ── */
-function isMobile()         { return window.innerWidth <= 768; }
-function isTablet()         { return window.innerWidth <= 1024 && window.innerWidth > 768; }
-function isLandscapePhone() { return window.innerHeight < 500 && window.innerWidth > window.innerHeight; }
+document.documentElement.style.overflowX = "hidden";
+document.body.style.overflowX = "hidden";
 
-/* ── Hamburger menu toggle ── */
-const hamburgerBtn = document.getElementById("hamburger");
-const navMenu      = document.getElementById("navMenu");
-
-if (hamburgerBtn && navMenu) {
-  hamburgerBtn.addEventListener("click", () => {
-    hamburgerBtn.classList.toggle("active");
-    navMenu.classList.toggle("open");
-    document.body.style.overflow = navMenu.classList.contains("open") ? "hidden" : "";
-  });
-
-  navMenu.querySelectorAll("a").forEach(link => {
-    link.addEventListener("click", () => {
-      hamburgerBtn.classList.remove("active");
-      navMenu.classList.remove("open");
-      document.body.style.overflow = "";
-    });
-  });
+/* Helpers */
+function disableStack() {
+  /* Disable only on very small height landscape phones */
+  return window.innerHeight < 500;
 }
 
-/* ── Core elements ── */
+/* Elements */
 const logoWrapper  = document.querySelector(".logo-wrapper");
 const introSection = document.querySelector(".intro");
 const heroSection  = document.querySelector(".hero-section");
@@ -42,393 +19,229 @@ const floatsUp   = document.querySelectorAll(".intro-float[data-dir='up']");
 const floatsDown = document.querySelectorAll(".intro-float[data-dir='down']");
 const allFloats  = document.querySelectorAll(".intro-float");
 
-/* ── Hero child elements ── */
+const heroNavbar = heroSection.querySelector(".navbar");
 const heroPill   = heroSection.querySelector(".tag-pill");
 const heroH1     = heroSection.querySelector("h1");
 const heroP      = heroSection.querySelector(".hero-content p");
-const heroNavbar = heroSection.querySelector(".navbar");
 const heroFloats = heroSection.querySelectorAll(".float");
 
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   INITIAL STATE — called once at boot and on every rebuild.
-   Sets every animated element to its correct starting values.
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* Initial State */
 function setInitialState() {
-  gsap.set(logoWrapper, { transformOrigin: "50% 50%", force3D: true });
 
-  /* Hero: fully sharp and visible from frame 0 */
-  gsap.set(heroSection, { opacity: 1, filter: "blur(0px)", scale: 1, zIndex: 10 });
+  gsap.set(heroSection, {
+    opacity: 1,
+    scale: 1.05,
+    zIndex: 10
+  });
 
-  /* Hero children: hidden — assembled by scroll animation */
-  gsap.set(heroNavbar, { opacity: 0, y: -30 });
-  gsap.set(heroPill,   { opacity: 0, y: 40 });
-  gsap.set(heroH1,     { opacity: 0, y: 50 });
-  gsap.set(heroP,      { opacity: 0, y: 40 });
-  gsap.set(heroFloats, { opacity: 0, y: 30, scale: 0.85 });
+  gsap.set([heroNavbar, heroPill, heroH1, heroP], {
+    opacity: 0,
+    y: 50
+  });
 
-  /* Intro floats: visible and settled */
-  gsap.set(allFloats, { opacity: 1, y: 0, rotation: 0, scale: 1, force3D: true });
+  gsap.set(heroFloats, {
+    opacity: 0,
+    y: 40,
+    scale: 0.85
+  });
 
-  /* Intro section: fully purple */
+  gsap.set(allFloats, {
+    opacity: 1,
+    y: 0,
+    rotation: 0,
+    scale: 1
+  });
+
   gsap.set(introSection, {
-    visibility:      "visible",
-    opacity:         1,
-    backgroundColor: "rgba(135, 51, 232, 1)",
-    pointerEvents:   "auto"
+    opacity: 1,
+    backgroundColor: "rgba(135,51,232,1)"
   });
 }
 
 setInitialState();
 
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   IDLE FLOAT TWEENS
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-let idleTweens = [];
-let idleKilled = false;
+/* INTRO SCROLL */
+let introST;
 
-function createIdleTweens() {
-  idleTweens.forEach(t => t.kill());
-  idleTweens = [];
-  /* No idle floats on small/tablet screens — hidden via CSS */
-  if (isMobile() || isTablet() || isLandscapePhone()) return;
+function createIntro() {
 
-  allFloats.forEach((el, i) => {
-    idleTweens.push(gsap.to(el, {
-      y: -14, rotation: 2,
-      duration: 2.4 + i * 0.2,
-      ease: "sine.inOut",
-      yoyo: true, repeat: -1,
-      delay: i * 0.22
-    }));
-  });
-}
+  if (introST) introST.kill();
 
-createIdleTweens();
+  const scrollDist = window.innerHeight * 1.8;
 
-function killIdleFloats() {
-  if (idleKilled) return;
-  idleKilled = true;
-  idleTweens.forEach(t => t.kill());
-}
-
-const sub = (p, s, e) => gsap.utils.clamp(0, 1, (p - s) / (e - s));
-
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   RESPONSIVE VALUES
-   Recalculated fresh on every build.
-   Considers BOTH width AND height (catches phone rotation).
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-function getScrollDistance() {
-  const vw = window.innerWidth;
-  const vh = window.innerHeight;
-
-  /* Landscape phone — very short viewport, keep scroll short */
-  if (vh < 500 && vw > vh) return 1000;
-
-  if (vw <= 480)  return 1400;
-  if (vw <= 768)  return 1600;
-  if (vw <= 1024) return 2000;
-  return 2400;
-}
-
-function getLogoZoom() {
-  const vw = window.innerWidth;
-  const vh = window.innerHeight;
-
-  /* Landscape phone — minimal zoom to avoid logo bursting off-screen */
-  if (vh < 500 && vw > vh) return { z: 1200, scale: 1.2, yShift: 30 };
-
-  if (vw <= 480)  return { z: 1800, scale: 1.8, yShift: 80 };
-  if (vw <= 768)  return { z: 2200, scale: 2.0, yShift: 100 };
-  if (vw <= 1024) return { z: 2800, scale: 2.3, yShift: 120 };
-  return { z: 3400, scale: 2.6, yShift: 160 };
-}
-
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   MAIN INTRO SCROLL TRIGGER
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-let mainST;
-
-function createMainScrollTrigger() {
-  if (mainST) { mainST.kill(); mainST = null; }
-
-  const scrollDist = getScrollDistance();
-  const logoZoom   = getLogoZoom();
-
-  mainST = ScrollTrigger.create({
+  introST = ScrollTrigger.create({
     trigger: ".intro",
-    start:   "top top",
-    end:     `+=${scrollDist}`,
-    scrub:   0.6,
-    pin:     true,
+    start: "top top",
+    end: `+=${scrollDist}`,
+    scrub: 0.8,
+    pin: true,
     anticipatePin: 1,
 
     onUpdate: (self) => {
+
       const p = self.progress;
-      if (p > 0) killIdleFloats();
 
-      /* ━━ 0a. PURPLE BG FADES p: 0.40 → 0.55 ━━ */
-      const bgFade = sub(p, 0.40, 0.55);
-      gsap.set(introSection, {
-        backgroundColor: `rgba(135, 51, 232, ${1 - bgFade})`,
-        opacity: 1
-      });
-
-      /* ━━ 0b. INTRO FLOATS EXIT ━━ */
-      if (!isMobile() && !isTablet() && !isLandscapePhone()) {
-        floatsUp.forEach((el, i) => {
-          const fp = sub(p, i * 0.01, 0.18);
-          gsap.set(el, {
-            y:        -fp * 120 * (1 + i * 0.12) + "vh",
-            opacity:  Math.max(0, 1 - fp * 1.3),
-            scale:    1 - fp * 0.12,
-            rotation: -fp * (6 + i * 3)
-          });
-        });
-        floatsDown.forEach((el, i) => {
-          const fp = sub(p, 0.02 + i * 0.02, 0.22);
-          gsap.set(el, {
-            y:        -fp * 130 * (1 + i * 0.10) + "vh",
-            opacity:  Math.max(0, 1 - fp * 1.2),
-            scale:    1 - fp * 0.10,
-            rotation: fp * (5 + i * 3)
-          });
-        });
-      }
-
-      /* ━━ 1. LOGO ZOOM ━━ */
-      const logoP = sub(p, 0, 1.0);
       gsap.set(logoWrapper, {
-        z:     logoP * logoZoom.z,
-        scale: 1 + logoP * logoZoom.scale,
-        y:     logoP * logoZoom.yShift
+        scale: 1 + p * 2.2,
+        z: p * window.innerHeight * 2.2,
+        y: p * window.innerHeight * 0.12,
+        force3D: true
       });
 
-      /* Logo fades out p: 0.48 → 0.70 */
-      const logoFade = sub(p, 0.48, 0.70);
-      gsap.set(logoWrapper, { opacity: Math.max(0, 1 - logoFade) });
-
-      /* ━━ 2. INTRO OVERLAY fades p: 0.68 → 0.80 ━━ */
-      const fadeP = sub(p, 0.68, 0.80);
-      gsap.set(introSection, { opacity: 1 - fadeP });
-
-      /* ━━ 3. HERO CONTENT assembles ━━ */
-      const navP  = sub(p, 0.10, 0.25);
-      gsap.set(heroNavbar, { opacity: navP,  y: -30 * (1 - navP) });
-
-      const pillP = sub(p, 0.16, 0.30);
-      gsap.set(heroPill, { opacity: pillP, y: 40 * (1 - pillP) });
-
-      const h1P = sub(p, 0.22, 0.36);
-      gsap.set(heroH1, { opacity: h1P, y: 50 * (1 - h1P) });
-
-      const paraP = sub(p, 0.28, 0.42);
-      gsap.set(heroP, { opacity: paraP, y: 40 * (1 - paraP) });
-
-      if (!isMobile() && !isTablet() && !isLandscapePhone()) {
-        heroFloats.forEach((el, i) => {
-          const fp = sub(p, 0.34 + i * 0.02, 0.48 + i * 0.01);
-          gsap.set(el, { opacity: fp, y: 30 * (1 - fp), scale: 0.85 + fp * 0.15 });
+      floatsUp.forEach((el, i) => {
+        const fp = gsap.utils.clamp(0,1,(p - 0.05 - i*0.02)/0.25);
+        gsap.set(el, {
+          y: -fp * 150 + "vh",
+          opacity: 1 - fp
         });
-      }
+      });
+
+      floatsDown.forEach((el, i) => {
+        const fp = gsap.utils.clamp(0,1,(p - 0.08 - i*0.02)/0.25);
+        gsap.set(el, {
+          y: fp * 150 + "vh",
+          opacity: 1 - fp
+        });
+      });
+
+      const fade = gsap.utils.clamp(0,1,(p - 0.60)/0.25);
+      gsap.set(introSection, { opacity: 1 - fade });
+
+      /* Faster hero reveal */
+      const reveal = gsap.utils.clamp(0,1,(p - 0.82)/0.06);
+
+      gsap.set(heroSection, {
+        scale: 1.05 - reveal*0.05
+      });
+
+      gsap.set(heroNavbar, { opacity: reveal, y: -40*(1-reveal) });
+      gsap.set(heroPill,   { opacity: reveal, y:  50*(1-reveal) });
+      gsap.set(heroH1,     { opacity: reveal, y:  60*(1-reveal) });
+      gsap.set(heroP,      { opacity: reveal, y:  50*(1-reveal) });
+
+      heroFloats.forEach(el => {
+        gsap.set(el, {
+          opacity: reveal,
+          y: 40*(1-reveal),
+          scale: 0.85 + reveal*0.15
+        });
+      });
     },
 
     onLeave: () => {
-      /*
-       * ScrollTrigger is about to unpin .intro and return it to normal flow.
-       *
-       * KEY FIX: Do NOT use visibility:hidden on introSection.
-       * Some browsers repaint the element's CSS background (#8733E8) over
-       * GSAP's inline backgroundColor during the layout recalc caused by unpin.
-       * Instead: set backgroundColor to the page's dark colour (#100318) so
-       * even if a repaint fires, nothing purple is visible.
-       *
-       * KEY FIX 2: Keep heroSection fully rendered at zIndex:-1 rather than
-       * visibility:hidden — no gap / no one-frame void that exposes body bg.
-       */
       gsap.set(introSection, {
-        opacity:         0,
-        backgroundColor: "#100318",  /* safe dark fallback on any repaint */
-        pointerEvents:   "none"
+        opacity: 0,
+        backgroundColor: "#100318"
       });
-      gsap.set(heroSection, { opacity: 1, filter: "blur(0px)", scale: 1, zIndex: -1 });
-      gsap.set(heroNavbar,  { opacity: 1, y: 0 });
-      gsap.set(heroPill,    { opacity: 1, y: 0 });
-      gsap.set(heroH1,      { opacity: 1, y: 0 });
-      gsap.set(heroP,       { opacity: 1, y: 0 });
-      heroFloats.forEach(el => gsap.set(el, { opacity: 1, y: 0, scale: 1 }));
+      gsap.set(heroSection, { zIndex: -1 });
     },
 
     onEnterBack: () => {
-      /*
-       * Scrub re-enters at p=1.0, scrolling backward.
-       * Must match p=1.0 state exactly — no premature state snap:
-       *  • intro  : opacity 0, purple colour restored (for reverse scrub)
-       *  • hero   : zIndex 10 restored
-       *  • logo   : opacity 0 (fully faded at p=1.0)
-       *  • hero children: stay at opacity 1 (onUpdate drives them back to 0)
-       */
-      gsap.set(introSection, {
-        opacity:         0,
-        backgroundColor: "rgba(135, 51, 232, 1)",
-        pointerEvents:   "auto"
-      });
       gsap.set(heroSection, { zIndex: 10 });
-      gsap.set(logoWrapper, { opacity: 0 });
-    },
-
-    onLeaveBack: () => {
-      /* Scrolled all the way back to top — revive idle tweens */
-      idleKilled = false;
-      createIdleTweens();
     }
   });
 }
 
-createMainScrollTrigger();
+createIntro();
 
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   SERVICES STACK ANIMATION
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* SERVICES STACK */
 let serviceST;
 
-function createServiceAnimation() {
-  if (serviceST) { serviceST.kill(); serviceST = null; }
+function createServices() {
+
+  if (serviceST) serviceST.kill();
 
   const scene = document.querySelector(".service-stack-scene");
-  if (!scene) return;
+  const cards = gsap.utils.toArray(".service-card");
 
-  /* Mobile / landscape phone: flat CSS layout, no GSAP stack */
-  if (isMobile() || isLandscapePhone()) return;
+  if (!scene || !cards.length) return;
 
-  /*
-   * DOM order: card4 → card3 → card2 → card1
-   * After .reverse(): cards[0]=card1 (front/top)
-   */
-  const cards = gsap.utils.toArray(".service-card").reverse();
-  if (cards.length === 0) return;
+  /* 🔥 NOW WORKS ON 430x932 */
+  if (disableStack()) return;
 
-  const peekY     = [0,   18,  36,  54];
+  const reversed = [...cards].reverse();
+  const peekY = [0, 20, 40, 60];
   const peekScale = [1, 0.97, 0.94, 0.91];
 
-  cards.forEach((card, i) => {
+  reversed.forEach((card, i) => {
     gsap.set(card, {
-      y:       peekY[i],
-      scale:   peekScale[i],
-      opacity: 1,
-      zIndex:  cards.length - i  /* card1=4 (top) … card4=1 (bottom) */
+      y: peekY[i] || 0,
+      scale: peekScale[i] || 1,
+      zIndex: reversed.length - i
     });
   });
 
-  /* Recalculated fresh — accounts for current viewport */
-  const scrollPerCard = window.innerWidth <= 1024 ? 260 : 340;
-  const exitCount     = cards.length - 1;  /* 3 exits; card4 stays */
+  const scrollPerCard = window.innerHeight * 0.7;
 
   const tl = gsap.timeline({
     scrollTrigger: {
-      trigger:      scene,
-      start:        "top 15%",
-      end:          `+=${exitCount * scrollPerCard}`,
-      scrub:        1,
-      pin:          true,
-      anticipatePin: 1,
+      trigger: scene,
+      start: "top 20%",
+      end: `+=${(reversed.length - 1) * scrollPerCard}`,
+      scrub: 1,
+      pin: true,
+      anticipatePin: 1
     }
   });
 
   serviceST = tl.scrollTrigger;
 
-  for (let i = 0; i < exitCount; i++) {
-    const t         = i * 1.2;
-    const remaining = cards.slice(i + 1);
+  for (let i = 0; i < reversed.length - 1; i++) {
 
-    /* Top card flies up — no opacity change */
-    tl.to(cards[i], { y: "-115%", scale: 1, ease: "power2.in", duration: 1 }, t);
+    const remaining = reversed.slice(i + 1);
 
-    /* Remaining cards step forward */
+    tl.to(reversed[i], {
+      y: "-120%",
+      ease: "power2.in",
+      duration: 1
+    }, i);
+
     remaining.forEach((card, j) => {
-      tl.to(card, { y: peekY[j], scale: peekScale[j], ease: "power2.out", duration: 1 }, t);
+      tl.to(card, {
+        y: peekY[j] || 0,
+        scale: peekScale[j] || 1,
+        ease: "power2.out",
+        duration: 1
+      }, i);
     });
   }
 }
 
-createServiceAnimation();
+createServices();
 
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   FULL REBUILD
-   Called on every meaningful viewport change.
-   Kills all triggers → resets every element → recreates fresh.
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-function fullRebuild() {
-  /* 1. Kill all ScrollTriggers */
+/* REBUILD */
+let resizeTimer;
+let lastW = window.innerWidth;
+let lastH = window.innerHeight;
+
+function rebuild() {
   ScrollTrigger.getAll().forEach(st => st.kill());
-  mainST    = null;
-  serviceST = null;
-
-  /* 2. Kill idle tweens */
-  idleTweens.forEach(t => t.kill());
-  idleTweens = [];
-  idleKilled = false;
-
-  /* 3. Clear GSAP inline styles from service cards */
-  document.querySelectorAll(".service-card").forEach(card => {
-    gsap.set(card, { clearProps: "all" });
-  });
-
-  /* 4. Reset every animated element to clean initial state */
   setInitialState();
-
-  /* 5. Recreate all animations with current viewport values */
-  createMainScrollTrigger();
-  createServiceAnimation();
-  createIdleTweens();
-
-  /* 6. Force ScrollTrigger to recompute all scroll positions */
+  createIntro();
+  createServices();
   ScrollTrigger.refresh(true);
 }
 
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   RESIZE / ORIENTATION HANDLER
+function scheduleRebuild() {
 
-   Watches BOTH width AND height, so rotation (which changes
-   both) always triggers a rebuild.
-
-   Thresholds:
-     width  > 30px change  → real resize (not just rounding)
-     height > 150px change → orientation or real resize
-                             (ignores ~60px mobile chrome slide)
-
-   Debounced 200ms for resize, 400ms for orientationchange
-   so browser has time to finish the geometry update.
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-let lastW = window.innerWidth;
-let lastH = window.innerHeight;
-let resizeTimer;
-
-function scheduleRebuild(delay) {
   clearTimeout(resizeTimer);
   resizeTimer = setTimeout(() => {
-    const newW = window.innerWidth;
-    const newH = window.innerHeight;
 
-    if (Math.abs(newW - lastW) > 30 || Math.abs(newH - lastH) > 150) {
-      lastW = newW;
-      lastH = newH;
-      fullRebuild();
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+
+    if (Math.abs(w - lastW) > 30 || Math.abs(h - lastH) > 120) {
+      lastW = w;
+      lastH = h;
+      rebuild();
     }
-  }, delay);
+
+  }, 250);
 }
 
-window.addEventListener("resize",            () => scheduleRebuild(200));
-window.addEventListener("orientationchange", () => scheduleRebuild(400));
+window.addEventListener("resize", scheduleRebuild);
+window.addEventListener("orientationchange", scheduleRebuild);
 
-/* screen.orientation API — more reliable on iOS Safari */
-if (window.screen?.orientation) {
-  window.screen.orientation.addEventListener("change", () => scheduleRebuild(400));
-}
-
-/* ── Initial refresh on full load ── */
 window.addEventListener("load", () => {
-  lastW = window.innerWidth;
-  lastH = window.innerHeight;
   ScrollTrigger.refresh(true);
 });
